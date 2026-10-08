@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 80" preserveAspectRatio="none" fill="none">
+  <!-- Group of playful Google brand colored geometric shapes mirroring Figma -->
+  <!-- Blue rectangle -->
+  <rect x="20" y="45" width="45" height="30" rx="4" fill="#4285F4" transform="rotate(-15 42 60)"/>
+  <!-- Yellow circle -->
+  <circle cx="110" cy="50" r="22" fill="#FBBC04"/>
+  <!-- Red semi-circle -->
+  <path d="M160 70 A 25 25 0 0 0 210 70 Z" fill="#EA4335"/>
+  <!-- Green rotated square -->
+  <rect x="235" y="32" width="36" height="36" rx="6" fill="#34A853" transform="rotate(25 253 50)"/>
+  <!-- Blue quarter arch -->
+  <path d="M305 70 A 30 30 0 0 1 335 40 L 335 70 Z" fill="#4285F4"/>
+  <!-- Yellow diamond -->
+  <rect x="360" y="38" width="28" height="28" fill="#FBBC04" transform="rotate(45 374 52)"/>
+  <!-- Green pill / arch -->
+  <path d="M420 70 L 420 40 A 15 15 0 0 1 450 40 L 450 70 Z" fill="#34A853"/>
+  <!-- Red circle -->
+  <circle cx="490" cy="55" r="18" fill="#EA4335"/>
+  <!-- Yellow semi circle pointing down -->
+  <path d="M530 35 A 25 25 0 0 0 580 35 Z" fill="#FBBC04" transform="rotate(180 555 35)"/>
+  <!-- Blue triangle -->
+  <polygon points="610,70 635,30 660,70" fill="#4285F4"/>
+  <!-- Green rectangle -->
+  <rect x="680" y="35" width="48" height="26" rx="4" fill="#34A853" transform="rotate(-10 704 48)"/>
+  <!-- Red half circle -->
+  <path d="M750 70 A 26 26 0 0 0 802 70 Z" fill="#EA4335"/>
+  <!-- Yellow full circle -->
+  <circle cx="840" cy="48" r="24" fill="#FBBC04"/>
+  <!-- Blue arch -->
+  <path d="M890 70 L 890 42 A 16 16 0 0 1 922 42 L 922 70 Z" fill="#4285F4"/>
+  <!-- Green rotated square -->
+  <rect x="945" y="35" width="34" height="34" rx="4" fill="#34A853" transform="rotate(20 962 52)"/>
+  <!-- Red diamond -->
+  <rect x="1010" y="38" width="26" height="26" fill="#EA4335" transform="rotate(45 1023 51)"/>
+  <!-- Yellow semicircle -->
+  <path d="M1060 70 A 24 24 0 0 0 1108 70 Z" fill="#FBBC04"/>
+  <!-- Blue circle -->
+  <circle cx="1145" cy="50" r="20" fill="#4285F4"/>
+  <!-- Green pill -->
+  <rect x="1175" y="40" width="30" height="25" rx="5" fill="#34A853"/>
+</svg>

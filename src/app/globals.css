@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=Silkscreen:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg-color: #F8F9FA;
+  --text-color: #111827;
+  --card-bg: #FFFFFF;
+  --border-color: #000000;
+  --font-silkscreen: 'Silkscreen', monospace;
+  --font-space-grotesk: 'Space Grotesk', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+}
+
+.dark {
+  --bg-color: #0E0F12;
+  --text-color: #F3F4F6;
+  --card-bg: #181920;
+  --border-color: #383A46;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-inter);
+  transition: background-color 0.25s ease, color 0.25s ease;
+  overflow-x: hidden;
+}
+
+/* Custom Neo-Brutalist Classes */
+.brutal-box {
+  background-color: var(--card-bg);
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dark .brutal-box {
+  border-color: #4B5563;
+  box-shadow: 4px 4px 0px #4B5563;
+}
+
+.brutal-box:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.dark .brutal-box:hover {
+  box-shadow: 6px 6px 0px #4B5563;
+}
+
+.brutal-btn {
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  transition: all 0.15s ease;
+  font-weight: 700;
+}
+
+.brutal-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000000;
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #000000;
+}
+
+.dark .brutal-btn {
+  border-color: #000000;
+  box-shadow: 3px 3px 0px #000000;
+}
+
+/* Custom retro font display */
+.font-display-pixel {
+  font-family: 'Silkscreen', 'Space Grotesk', monospace;
+  letter-spacing: -0.02em;
+}
+
+.font-display-tech {
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.03em;
+}

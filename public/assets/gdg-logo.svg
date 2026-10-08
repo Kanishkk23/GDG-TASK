@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 88" fill="none">
+  <!-- Left Bracket < (Red top, Blue bottom) -->
+  <path d="M50 14L22 42C20 44 20 47 22 49L50 77C52 79 56 79 58 77C60 75 60 71 58 69L34 45.5L58 21.5C60 19.5 60 16 58 14C56 12 52 12 50 14Z" fill="#4285F4"/>
+  <path d="M50 14L34 30L44 40L58 26C60 24 60 20 58 18C56 16 52 14 50 14Z" fill="#EA4335"/>
+  
+  <!-- Right Bracket > (Green top, Yellow bottom) -->
+  <path d="M110 14L138 42C140 44 140 47 138 49L110 77C108 79 104 79 102 77C100 75 100 71 102 69L126 45.5L102 21.5C100 19.5 100 16 102 14C104 12 108 12 110 14Z" fill="#34A853"/>
+  <path d="M110 77L126 61L116 51L102 65C100 67 100 71 102 73C104 75 108 77 110 77Z" fill="#FBBC04"/>
+</svg>
