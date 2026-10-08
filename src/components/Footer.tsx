@@ -41,8 +41,8 @@ export default function Footer() {
             <div className="md:col-span-7 space-y-4">
               
               {/* Location Card */}
-              <div className="p-3.5 bg-[#4285F4] text-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] flex items-center gap-3">
-                <div className="p-2 bg-white text-[#4285F4] rounded-lg border border-black shrink-0">
+              <div className="p-4 rounded-2xl ios-glass-btn ios-glass-blue text-white flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-white/20 border border-white/40 text-white shrink-0">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div className="text-xs font-mono font-medium leading-snug">
@@ -54,9 +54,9 @@ export default function Footer() {
               {/* Email Card (Yellow) */}
               <a
                 href="mailto:gdsc@rknec.edu"
-                className="p-3.5 bg-[#FBBC04] text-black border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] flex items-center gap-3 hover:-translate-y-0.5 transition-transform block"
+                className="p-4 rounded-2xl ios-glass-btn ios-glass-yellow text-black flex items-center gap-3 block"
               >
-                <div className="p-2 bg-white text-black rounded-lg border border-black shrink-0">
+                <div className="p-2.5 rounded-xl bg-white/40 border border-black/20 text-black shrink-0">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div className="text-xs font-mono font-bold truncate">
@@ -67,13 +67,13 @@ export default function Footer() {
             </div>
 
             {/* Box 2 (Purple): Follow Us Box (5 cols) matching Figma */}
-            <div className="md:col-span-5 p-4 bg-[#6750A4] text-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] flex flex-col justify-between">
+            <div className="md:col-span-5 p-4 rounded-2xl ios-glass-btn ios-glass-purple text-white flex flex-col justify-between">
               
               <div className="font-mono text-xs font-bold uppercase tracking-wider mb-3">
                 Follow Us:
               </div>
 
-              {/* Social Icon Buttons matching Figma colored square boxes */}
+              {/* Social Icon Buttons with iOS glass effect */}
               <div className="flex items-center gap-2.5">
                 
                 {/* Instagram */}
@@ -82,9 +82,9 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="w-10 h-10 bg-[#EA4335] text-white border-2 border-black rounded-lg shadow-[2px_2px_0px_#000] flex items-center justify-center hover:-translate-y-0.5 active:translate-y-0.5 transition-all"
+                  className="w-11 h-11 rounded-xl ios-glass-btn ios-glass-red flex items-center justify-center cursor-pointer"
                 >
-                  <Instagram className="w-5 h-5" />
+                  <Instagram className="w-5 h-5 text-white" />
                 </a>
 
                 {/* LinkedIn */}
@@ -93,9 +93,9 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="w-10 h-10 bg-[#4285F4] text-white border-2 border-black rounded-lg shadow-[2px_2px_0px_#000] flex items-center justify-center hover:-translate-y-0.5 active:translate-y-0.5 transition-all"
+                  className="w-11 h-11 rounded-xl ios-glass-btn ios-glass-blue flex items-center justify-center cursor-pointer"
                 >
-                  <Linkedin className="w-5 h-5" />
+                  <Linkedin className="w-5 h-5 text-white" />
                 </a>
 
                 {/* Twitter / X */}
@@ -104,9 +104,9 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Twitter X"
-                  className="w-10 h-10 bg-[#34A853] text-white border-2 border-black rounded-lg shadow-[2px_2px_0px_#000] flex items-center justify-center hover:-translate-y-0.5 active:translate-y-0.5 transition-all"
+                  className="w-11 h-11 rounded-xl ios-glass-btn ios-glass-green flex items-center justify-center cursor-pointer"
                 >
-                  <Twitter className="w-5 h-5" />
+                  <Twitter className="w-5 h-5 text-white" />
                 </a>
 
                 {/* GitHub */}
@@ -115,9 +115,9 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
-                  className="w-10 h-10 bg-black text-white border-2 border-black rounded-lg shadow-[2px_2px_0px_#000] flex items-center justify-center hover:-translate-y-0.5 active:translate-y-0.5 transition-all"
+                  className="w-11 h-11 rounded-xl ios-glass-btn ios-glass-dark flex items-center justify-center cursor-pointer"
                 >
-                  <Github className="w-5 h-5" />
+                  <Github className="w-5 h-5 text-white" />
                 </a>
 
               </div>

@@ -9,25 +9,23 @@ import ThemeToggle from "./ThemeToggle";
 interface NavBadge {
   label: string;
   href: string;
-  bgClass: string;
-  textClass: string;
-  hoverClass: string;
+  glassClass: string;
 }
 
 const navBadges: NavBadge[] = [
-  { label: "Home", href: "#hero", bgClass: "bg-[#4285F4]", textClass: "text-white", hoverClass: "hover:bg-blue-600" },
-  { label: "About", href: "#team", bgClass: "bg-[#EA4335]", textClass: "text-white", hoverClass: "hover:bg-red-600" },
-  { label: "Events", href: "#events", bgClass: "bg-[#FBBC04]", textClass: "text-black", hoverClass: "hover:bg-amber-400" },
-  { label: "Team", href: "#team", bgClass: "bg-[#34A853]", textClass: "text-white", hoverClass: "hover:bg-green-600" },
-  { label: "FAQs", href: "#faqs", bgClass: "bg-[#6750A4]", textClass: "text-white", hoverClass: "hover:bg-purple-700" },
-  { label: "Contact", href: "#contact", bgClass: "bg-[#38BDF8]", textClass: "text-black", hoverClass: "hover:bg-sky-400" },
+  { label: "Home", href: "#hero", glassClass: "ios-glass-blue" },
+  { label: "About", href: "#team", glassClass: "ios-glass-red" },
+  { label: "Events", href: "#events", glassClass: "ios-glass-yellow" },
+  { label: "Team", href: "#team", glassClass: "ios-glass-green" },
+  { label: "FAQs", href: "#faqs", glassClass: "ios-glass-purple" },
+  { label: "Contact", href: "#contact", glassClass: "ios-glass-cyan" },
 ];
 
 export default function Navbar({ onOpenRegister }: { onOpenRegister: () => void }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-[#F8F9FA]/90 dark:bg-[#0E0F12]/90 border-b-2 border-black dark:border-zinc-700 transition-colors">
+    <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/60 dark:bg-[#0E0F12]/75 border-b border-black/10 dark:border-white/10 transition-colors shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         
         {/* Left: GDG Logo + Chapter Label */}
@@ -52,13 +50,13 @@ export default function Navbar({ onOpenRegister }: { onOpenRegister: () => void 
           </div>
         </Link>
 
-        {/* Center: Multi-color pill badges (Exact replica of Figma design) */}
+        {/* Center: Multi-color iOS Glass pill badges */}
         <nav className="hidden md:flex items-center gap-2">
           {navBadges.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              className={`px-3.5 py-1 text-xs font-bold rounded-full border-2 border-black shadow-[2px_2px_0px_#000] transition-all hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none ${item.bgClass} ${item.textClass} ${item.hoverClass}`}
+              className={`px-4 py-1.5 text-xs font-bold rounded-full ios-glass-btn ${item.glassClass} transition-all`}
             >
               {item.label}
             </a>
@@ -69,7 +67,7 @@ export default function Navbar({ onOpenRegister }: { onOpenRegister: () => void 
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenRegister}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white rounded-lg shadow-[2px_2px_0px_#4285F4] hover:-translate-y-0.5 active:translate-y-0.5 transition-all"
+            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl ios-glass-btn ios-glass-dark text-white cursor-pointer"
           >
             Register
             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -82,7 +80,7 @@ export default function Navbar({ onOpenRegister }: { onOpenRegister: () => void 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            className="md:hidden p-2 border-2 border-black dark:border-zinc-400 bg-white dark:bg-zinc-800 rounded-lg shadow-[2px_2px_0px_#000] text-black dark:text-white"
+            className="md:hidden p-2 rounded-xl ios-glass-btn text-black dark:text-white"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -91,14 +89,14 @@ export default function Navbar({ onOpenRegister }: { onOpenRegister: () => void 
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t-2 border-black dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-4 space-y-3">
-          <div className="grid grid-cols-2 gap-2">
+        <div className="md:hidden border-t border-black/10 dark:border-white/10 backdrop-blur-2xl bg-white/80 dark:bg-zinc-900/85 px-4 py-4 space-y-3">
+          <div className="grid grid-cols-2 gap-2.5">
             {navBadges.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`py-2 text-center text-xs font-bold rounded-lg border-2 border-black shadow-[2px_2px_0px_#000] ${item.bgClass} ${item.textClass}`}
+                className={`py-2.5 text-center text-xs font-bold rounded-xl ios-glass-btn ${item.glassClass}`}
               >
                 {item.label}
               </a>
@@ -109,9 +107,10 @@ export default function Navbar({ onOpenRegister }: { onOpenRegister: () => void 
               setMobileMenuOpen(false);
               onOpenRegister();
             }}
-            className="w-full py-2.5 text-xs font-bold uppercase tracking-wider bg-black text-white dark:bg-white dark:text-black border-2 border-black rounded-lg shadow-[3px_3px_0px_#4285F4]"
+            className="w-full py-3 text-xs font-bold uppercase tracking-wider rounded-xl ios-glass-btn ios-glass-dark text-white flex items-center justify-center gap-2"
           >
             Register for Event
+            <ArrowUpRight className="w-4 h-4" />
           </button>
         </div>
       )}

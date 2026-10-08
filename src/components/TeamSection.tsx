@@ -2,20 +2,22 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Wrench, Network, Award, Github, Linkedin, Twitter } from "lucide-react";
+import { Wrench, Network, Award, ChevronDown } from "lucide-react";
 
 interface TeamMember {
   name: string;
   role: string;
   domain: string;
-  avatarColor: string;
+  avatarGlass: string;
 }
 
 const coreLeads: TeamMember[] = [
-  { name: "Aarav Sharma", role: "GDG Campus Lead", domain: "Lead Organizer", avatarColor: "bg-[#4285F4]" },
-  { name: "Priya Patel", role: "Web Dev Lead", domain: "Full Stack & Next.js", avatarColor: "bg-[#EA4335]" },
-  { name: "Rohan Deshmukh", role: "AI / ML Lead", domain: "TensorFlow & Gemini", avatarColor: "bg-[#FBBC04]" },
-  { name: "Sneha Kulkarni", role: "Cloud & DevOps Lead", domain: "GCP & Kubernetes", avatarColor: "bg-[#34A853]" },
+  { name: "Aarav Sharma", role: "GDG Campus Lead", domain: "Lead Organizer", avatarGlass: "ios-glass-blue" },
+  { name: "Priya Patel", role: "Web Dev Lead", domain: "Full Stack & Next.js", avatarGlass: "ios-glass-red" },
+  { name: "Rohan Deshmukh", role: "MAC Lead", domain: "Mobile, Android & Apple", avatarGlass: "ios-glass-yellow" },
+  { name: "Sneha Kulkarni", role: "Design Lead", domain: "UI/UX & Branding", avatarGlass: "ios-glass-purple" },
+  { name: "Aditya Varma", role: "Competitive Programming Lead", domain: "Algorithms & Contests", avatarGlass: "ios-glass-green" },
+  { name: "Tanvi Joshi", role: "Marketing & Socials Lead", domain: "Outreach & Media", avatarGlass: "ios-glass-cyan" },
 ];
 
 export default function TeamSection() {
@@ -45,9 +47,9 @@ export default function TeamSection() {
               <div className="space-y-4 pt-2">
                 
                 {/* Feature 1 */}
-                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-2xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
                   <div className="flex items-start gap-3">
-                    <div className="p-2 bg-blue-100 dark:bg-blue-900/50 text-[#4285F4] border-2 border-black rounded-lg">
+                    <div className="p-2.5 rounded-xl ios-glass-btn ios-glass-blue text-white">
                       <Wrench className="w-5 h-5" />
                     </div>
                     <div>
@@ -62,9 +64,9 @@ export default function TeamSection() {
                 </div>
 
                 {/* Feature 2 */}
-                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-2xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
                   <div className="flex items-start gap-3">
-                    <div className="p-2 bg-green-100 dark:bg-green-900/50 text-[#34A853] border-2 border-black rounded-lg">
+                    <div className="p-2.5 rounded-xl ios-glass-btn ios-glass-green text-white">
                       <Network className="w-5 h-5" />
                     </div>
                     <div>
@@ -80,19 +82,20 @@ export default function TeamSection() {
 
               </div>
 
-              {/* Toggle lead cards */}
+              {/* iOS Glass Button to Toggle Lead cards */}
               <button
                 onClick={() => setShowMemberCards(!showMemberCards)}
-                className="inline-flex items-center gap-2 text-xs font-mono font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                className="px-4 py-2.5 rounded-xl ios-glass-btn inline-flex items-center gap-2 text-xs font-mono font-bold text-black dark:text-white cursor-pointer"
               >
-                <span>{showMemberCards ? "Hide Chapter Leads" : "View Chapter Leads Profiles →"}</span>
+                <span>{showMemberCards ? "Hide Chapter Leads" : "View Chapter Leads Profiles"}</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showMemberCards ? "rotate-180" : ""}`} />
               </button>
 
             </div>
 
             {/* Right Photo (6 cols) - EXACT team photo from Figma */}
             <div className="lg:col-span-6 flex flex-col items-center">
-              <div className="w-full relative rounded-xl overflow-hidden border-3 border-black shadow-[6px_6px_0px_#000] group">
+              <div className="w-full relative rounded-2xl overflow-hidden border-3 border-black shadow-[6px_6px_0px_#000] group">
                 <div className="relative aspect-[4/3] w-full bg-zinc-200">
                   <Image
                     src="/assets/team_photo.png"
@@ -101,7 +104,7 @@ export default function TeamSection() {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-2.5 bg-black text-white text-center font-mono text-xs font-semibold flex items-center justify-between px-4">
+                <div className="p-3 bg-black text-white text-center font-mono text-xs font-semibold flex items-center justify-between px-4">
                   <span className="flex items-center gap-1.5">
                     <Award className="w-3.5 h-3.5 text-yellow-400" /> GDG RBU Core Community 2024
                   </span>
@@ -114,17 +117,17 @@ export default function TeamSection() {
 
           {/* Interactive Core Leads Gallery when toggled */}
           {showMemberCards && (
-            <div className="mt-8 pt-6 border-t-2 border-black dark:border-zinc-700">
+            <div className="mt-8 pt-6 border-t-2 border-black dark:border-zinc-700 animate-fade-in">
               <h4 className="font-display-pixel text-lg font-bold text-black dark:text-white mb-4">
-                Chapter Core Leads
+                Chapter Core Leads & Domains
               </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {coreLeads.map((member) => (
                   <div
                     key={member.name}
-                    className="p-4 bg-white dark:bg-zinc-800 border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]"
+                    className="p-4 bg-white/70 dark:bg-zinc-800/80 backdrop-blur-md border-2 border-black rounded-2xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]"
                   >
-                    <div className={`w-10 h-10 rounded-full ${member.avatarColor} border-2 border-black flex items-center justify-center font-bold text-white mb-3`}>
+                    <div className={`w-10 h-10 rounded-xl ios-glass-btn ${member.avatarGlass} flex items-center justify-center font-bold text-white mb-3 text-sm`}>
                       {member.name.charAt(0)}
                     </div>
                     <div className="font-bold text-sm text-black dark:text-white">{member.name}</div>

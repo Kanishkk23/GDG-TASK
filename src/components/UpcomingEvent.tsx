@@ -25,10 +25,10 @@ export default function UpcomingEvent({ onOpenRegister }: { onOpenRegister: () =
             
             {/* Top Badge */}
             <div className="flex items-center justify-between mb-6">
-              <span className="px-3 py-1 bg-white/90 text-black border-2 border-black rounded-md text-xs font-mono font-bold shadow-[2px_2px_0px_#000]">
+              <span className="px-3 py-1 ios-glass-btn rounded-lg text-black text-xs font-mono font-bold">
                 FLAGSHIP EVENT
               </span>
-              <span className="text-xs font-mono text-zinc-300 bg-black/40 px-2.5 py-1 rounded border border-white/20">
+              <span className="text-xs font-mono text-zinc-300 bg-black/40 px-3 py-1 rounded-lg border border-white/20">
                 LIMITED SEATS
               </span>
             </div>
@@ -40,7 +40,7 @@ export default function UpcomingEvent({ onOpenRegister }: { onOpenRegister: () =
               </h3>
 
               <p className="text-zinc-200 text-xs sm:text-sm leading-relaxed max-w-lg font-medium drop-shadow">
-                Discover what Google Developer Groups RBU has in store for the academic year! Explore tracks in Web Development, AI/ML, Cloud Computing, Android, and Open Source. Meet chapter leads and network with peers.
+                Discover what Google Developer Groups RBU has in store for the academic year! Explore tracks in Web Development, MAC, Design, Marketing, Management, Socials, and Competitive Programming. Meet chapter leads and network with peers.
               </p>
 
               <div className="grid grid-cols-2 gap-2 pt-2 text-xs font-mono text-zinc-300">
@@ -53,7 +53,7 @@ export default function UpcomingEvent({ onOpenRegister }: { onOpenRegister: () =
               </div>
             </div>
 
-            {/* Bottom Arrow Button */}
+            {/* Bottom Arrow Button with iOS glass effect */}
             <div className="mt-6 flex items-center justify-between pt-4 border-t border-white/20">
               <span className="text-xs font-mono text-zinc-300">
                 Free entry for all RBU students
@@ -61,9 +61,9 @@ export default function UpcomingEvent({ onOpenRegister }: { onOpenRegister: () =
               <button
                 onClick={onOpenRegister}
                 aria-label="View Event Details"
-                className="w-10 h-10 rounded-full bg-[#FBBC04] hover:bg-amber-400 text-black border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center transition-transform group-hover:scale-110 active:scale-95"
+                className="w-12 h-12 rounded-full ios-glass-btn ios-glass-yellow text-black flex items-center justify-center cursor-pointer"
               >
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-5 h-5 text-black" />
               </button>
             </div>
 
@@ -74,7 +74,7 @@ export default function UpcomingEvent({ onOpenRegister }: { onOpenRegister: () =
             
             {/* Top Tag */}
             <div>
-              <div className="inline-block px-2.5 py-0.5 bg-black text-white text-[10px] font-mono font-bold uppercase rounded mb-3">
+              <div className="inline-block px-3 py-1 ios-glass-btn ios-glass-dark text-white text-[10px] font-mono font-bold uppercase rounded-lg mb-3">
                 SAVE THE DATE
               </div>
               <h3 className="font-display-pixel text-2xl sm:text-3xl font-extrabold text-black tracking-tight">
@@ -83,7 +83,7 @@ export default function UpcomingEvent({ onOpenRegister }: { onOpenRegister: () =
             </div>
 
             {/* Date and Time Details */}
-            <div className="my-6 space-y-3 bg-white/70 p-4 rounded-xl border-2 border-black shadow-[3px_3px_0px_#000]">
+            <div className="my-6 space-y-3 bg-white/70 backdrop-blur-md p-4 rounded-2xl border-2 border-black shadow-[3px_3px_0px_#000]">
               <div className="text-[11px] font-mono font-bold text-zinc-700 tracking-wider">
                 DATE & TIME
               </div>
@@ -97,13 +97,13 @@ export default function UpcomingEvent({ onOpenRegister }: { onOpenRegister: () =
               </div>
             </div>
 
-            {/* Register Now Pill Button */}
+            {/* Register Now Button with iOS Glass effect */}
             <div>
               <button
                 onClick={onOpenRegister}
-                className="w-full py-3.5 bg-black hover:bg-zinc-800 text-white font-bold text-sm uppercase tracking-wider rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 rounded-2xl ios-glass-btn ios-glass-dark text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Sparkles className="w-4 h-4 text-yellow-400" />
+                <Sparkles className="w-4 h-4 text-yellow-300" />
                 <span>Register Now</span>
               </button>
               <p className="text-center text-[11px] font-mono font-semibold text-zinc-800 mt-2">

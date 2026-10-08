@@ -48,8 +48,8 @@ export default function FaqSection() {
                 >
                   <span>{faq.question}</span>
                   <div
-                    className={`w-7 h-7 rounded-lg border-2 border-black dark:border-white flex items-center justify-center transition-transform duration-200 ${
-                      isOpen ? "rotate-180 bg-yellow-300 text-black" : "bg-zinc-100 dark:bg-zinc-800 text-black dark:text-white"
+                    className={`w-8 h-8 rounded-xl ios-glass-btn flex items-center justify-center transition-transform duration-200 cursor-pointer ${
+                      isOpen ? "rotate-180 ios-glass-yellow text-black" : "text-black dark:text-white"
                     }`}
                   >
                     <ChevronDown className="w-4 h-4" />
