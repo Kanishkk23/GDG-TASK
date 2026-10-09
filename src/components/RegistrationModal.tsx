@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, CheckCircle2, Ticket, Sparkles, Loader2, AlertCircle, ChevronDown, Check } from "lucide-react";
+import { X, CheckCircle2, Ticket, Sparkles, Loader2, AlertCircle, Calendar, MapPin, Download, QrCode } from "lucide-react";
+import QRCode from "qrcode";
 import { EventItem, RegistrationResponse } from "@/types";
 import { useAuth } from "./AuthContext";
 
@@ -12,39 +13,55 @@ interface Props {
   onRegisteredSuccess?: () => void;
 }
 
-const AVAILABLE_DOMAINS = [
-  "Web dev",
-  "MAC",
-  "design",
-  "marketing",
-  "management",
-  "socials",
-  "competetive programming"
-];
+const DEFAULT_FLAGSHIP_EVENT: EventItem = {
+  id: "gdg-orientation-2024",
+  title: "GDG ORIENTATION 2024",
+  description: "Flagship kickoff event: meet domain leads, network with peer developers, and discover upcoming workshops and projects across GDG RBU.",
+  dateTime: "10th October 2024 • 3:00 PM IST",
+  date: "10TH OCTOBER",
+  time: "3:00 PM IST",
+  venue: "Main Auditorium, Ramdeobaba University",
+  capacity: 250,
+  category: "Orientation",
+  registeredCount: 0,
+  createdAt: new Date().toISOString(),
+  isUpcoming: true,
+};
 
 export default function RegistrationModal({ isOpen, onClose, event, onRegisteredSuccess }: Props) {
   const { user, token } = useAuth();
 
+  const [activeEvent, setActiveEvent] = useState<EventItem>(event || DEFAULT_FLAGSHIP_EVENT);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("Computer Science & Engineering");
   const [year, setYear] = useState("2nd Year");
-  const [selectedDomain, setSelectedDomain] = useState("Web dev");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [response, setResponse] = useState<RegistrationResponse | null>(null);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
 
   useEffect(() => {
+    if (event) {
+      setActiveEvent(event);
+    } else {
+      fetch("/api/events")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && data.data && data.data.length > 0) {
+            const orientation = data.data.find((e: EventItem) => e.id === "gdg-orientation-2024") || data.data[0];
+            setActiveEvent(orientation);
+          }
+        })
+        .catch(() => {});
+    }
+
     if (user) {
       setFullName(user.name);
       setEmail(user.email);
       if (user.department) setDepartment(user.department);
       if (user.year) setYear(user.year);
-    }
-    if (event?.category) {
-      setSelectedDomain(event.category);
     }
   }, [user, event, isOpen]);
 
@@ -55,7 +72,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
     setLoading(true);
     setErrorMsg(null);
 
-    const targetEventId = event?.id || "gdg-orientation-2024";
+    const targetEventId = activeEvent.id || "gdg-orientation-2024";
 
     try {
       const res = await fetch(`/api/events/${targetEventId}/register`, {
@@ -69,7 +86,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
           email,
           department,
           year,
-          domain: selectedDomain,
+          domain: activeEvent.category || "Orientation",
         }),
       });
 
@@ -78,6 +95,37 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
       if (!res.ok || !data.success) {
         setErrorMsg(data.message || "Registration could not be completed.");
       } else {
+        const ticketId = data.ticketId || `GDG-RBU-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+        
+        // Generate scannable QR Code holding all attendee & event verification data
+        const qrPayload = JSON.stringify({
+          type: "GDG_RBU_EVENT_PASS",
+          status: "CONFIRMED_REGISTRATION",
+          ticketId: ticketId,
+          eventName: activeEvent.title,
+          attendeeName: fullName,
+          email: email,
+          department: department,
+          year: year,
+          venue: activeEvent.venue,
+          dateTime: activeEvent.dateTime,
+          issuedAt: new Date().toISOString(),
+        }, null, 2);
+
+        try {
+          const url = await QRCode.toDataURL(qrPayload, {
+            width: 320,
+            margin: 2,
+            color: {
+              dark: "#000000",
+              light: "#FFFFFF",
+            },
+          });
+          setQrCodeUrl(url);
+        } catch {
+          setQrCodeUrl(null);
+        }
+
         setResponse(data);
         if (onRegisteredSuccess) onRegisteredSuccess();
       }
@@ -90,8 +138,8 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
 
   const resetForm = () => {
     setResponse(null);
+    setQrCodeUrl(null);
     setErrorMsg(null);
-    setIsDropdownOpen(false);
     onClose();
   };
 
@@ -104,7 +152,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
           <div className="flex items-center gap-2">
             <Ticket className="w-5 h-5 text-yellow-300" />
             <h3 className="font-display-pixel text-base sm:text-lg font-bold">
-              {event?.title ? `${event.title.substring(0, 24)}... PASS` : "EVENT REGISTRATION"}
+              {activeEvent.title ? `${activeEvent.title.substring(0, 26)}... PASS` : "EVENT REGISTRATION"}
             </h3>
           </div>
           <button
@@ -118,52 +166,93 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
 
         {/* Modal Body */}
         <div className="p-6 max-h-[85vh] overflow-y-auto">
-          {response ? (
-            /* Success Ticket Preview */
-            <div className="text-center space-y-4 py-2">
-              <div className="w-14 h-14 rounded-sm btn-minimal btn-green text-white flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-8 h-8 text-white" />
+          {response && qrCodeUrl ? (
+            /* Success Ticket Preview with Scannable QR Code */
+            <div className="text-center space-y-4 py-2 font-mono">
+              <div className="w-12 h-12 rounded-sm btn-minimal btn-green text-white flex items-center justify-center mx-auto">
+                <CheckCircle2 className="w-7 h-7 text-white" />
               </div>
 
               <div>
-                <h4 className="font-display-pixel text-xl font-bold text-black dark:text-white">
-                  You are Registered!
+                <h4 className="font-display-pixel text-xl sm:text-2xl font-bold text-black dark:text-white">
+                  Registration Confirmed!
                 </h4>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 font-mono">
-                  {response.message}
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+                  Your digital entry pass has been issued for <span className="font-bold text-black dark:text-white">{activeEvent.title}</span>
                 </p>
               </div>
 
-              {/* Digital Pass Card */}
-              <div className="p-5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm shadow-[4px_4px_0px_#000] text-left space-y-3 font-mono">
-                <div className="flex justify-between items-center border-b border-zinc-300 dark:border-zinc-700 pb-2">
-                  <span className="text-xs text-zinc-500">DIGITAL EVENT PASS</span>
-                  <span className="px-2.5 py-0.5 rounded-sm btn-minimal btn-blue text-white text-[10px] font-bold">
-                    CONFIRMED
+              {/* Digital Pass Card with QR Code */}
+              <div className="p-5 bg-white dark:bg-zinc-800 border-2.5 border-black dark:border-zinc-500 rounded-sm shadow-[5px_5px_0px_#000] text-left space-y-4">
+                <div className="flex justify-between items-center border-b border-zinc-200 dark:border-zinc-700 pb-2">
+                  <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">
+                    OFFICIAL GDG ENTRY PASS
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-sm btn-minimal btn-green text-white text-[10px] font-bold">
+                    CONFIRMED & VERIFIED
                   </span>
                 </div>
-                <div>
-                  <span className="text-[10px] text-zinc-500 block">TICKET ID</span>
-                  <span className="text-base font-bold text-[#EA4335] tracking-wider">{response.ticketId}</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div>
-                    <span className="text-[10px] text-zinc-500 block">ATTENDEE</span>
-                    <span className="font-bold text-black dark:text-white truncate">{fullName}</span>
+
+                {/* Generated QR Code Card */}
+                <div className="flex flex-col items-center justify-center py-3 bg-zinc-50 dark:bg-zinc-900 border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-sm p-4">
+                  <img
+                    src={qrCodeUrl}
+                    alt={`Entry QR Pass for ${fullName}`}
+                    className="w-44 h-44 rounded-sm border-2 border-black shadow-[3px_3px_0px_#000] bg-white p-2"
+                  />
+                  <div className="flex items-center gap-1.5 text-[11px] text-zinc-600 dark:text-zinc-300 font-bold mt-2.5 text-center">
+                    <QrCode className="w-3.5 h-3.5 text-blue-500" />
+                    <span>Scan at venue entrance for check-in</span>
                   </div>
-                  <div>
-                    <span className="text-[10px] text-zinc-500 block">DOMAIN</span>
-                    <span className="font-bold text-[#4285F4] truncate">{selectedDomain}</span>
+                </div>
+
+                {/* Pass Details */}
+                <div className="space-y-2 text-xs">
+                  <div className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-900/60 p-2.5 rounded-sm border border-zinc-300 dark:border-zinc-700">
+                    <span className="text-[10px] text-zinc-500 font-bold">TICKET ID</span>
+                    <span className="font-bold text-[#EA4335] text-sm tracking-wider">{response.ticketId}</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
+                    <div>
+                      <span className="text-[10px] text-zinc-500 block">ATTENDEE</span>
+                      <span className="font-bold text-black dark:text-white truncate block">{fullName}</span>
+                      <span className="text-[10px] text-zinc-500 truncate block">{email}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-zinc-500 block">DEPARTMENT / YEAR</span>
+                      <span className="font-bold text-black dark:text-white truncate block">{department}</span>
+                      <span className="text-[10px] text-zinc-500 truncate block">{year}</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-zinc-200 dark:border-zinc-700 text-xs">
+                    <span className="text-[10px] text-zinc-500 block">EVENT & VENUE</span>
+                    <div className="font-bold text-black dark:text-white">{activeEvent.title}</div>
+                    <div className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-0.5">
+                      {activeEvent.dateTime} • {activeEvent.venue}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <button
-                onClick={resetForm}
-                className="w-full py-3.5 rounded-sm btn-minimal btn-dark text-white font-bold font-mono text-xs uppercase tracking-wider cursor-pointer"
-              >
-                Close & Return
-              </button>
+              {/* Action Buttons */}
+              <div className="flex items-center gap-3 pt-2">
+                <a
+                  href={qrCodeUrl}
+                  download={`GDG-Pass-${response.ticketId || "orientation"}.png`}
+                  className="flex-1 py-3 rounded-sm btn-minimal btn-blue text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download QR Pass</span>
+                </a>
+                <button
+                  onClick={resetForm}
+                  className="px-6 py-3 rounded-sm btn-minimal btn-dark text-white font-bold text-xs uppercase tracking-wider cursor-pointer"
+                >
+                  Done
+                </button>
+              </div>
             </div>
           ) : (
             /* Registration Form */
@@ -175,13 +264,38 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                 </div>
               )}
 
-              {/* Event highlight box */}
-              {event && (
-                <div className="p-3 bg-blue-50 dark:bg-blue-950/40 rounded-sm border border-blue-200 dark:border-blue-800 text-xs">
-                  <div className="font-bold text-blue-900 dark:text-blue-300">{event.title}</div>
-                  <div className="text-[11px] text-blue-700 dark:text-blue-400 mt-0.5">{event.dateTime} • {event.venue}</div>
+              {/* Event Details Summary Banner */}
+              <div className="p-4 bg-yellow-50 dark:bg-yellow-950/30 rounded-sm border-2 border-black dark:border-yellow-600 shadow-[3px_3px_0px_#000] space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded-sm btn-minimal btn-yellow text-black text-[10px] font-bold uppercase tracking-wider">
+                    EVENT REGISTRATION
+                  </span>
+                  <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 font-bold">
+                    GDG RBU
+                  </span>
                 </div>
-              )}
+
+                <h4 className="font-display-pixel text-base sm:text-lg font-bold text-black dark:text-white">
+                  {activeEvent.title}
+                </h4>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-zinc-700 dark:text-zinc-300 font-mono">
+                  <div className="flex items-center gap-1.5 truncate">
+                    <Calendar className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                    <span className="truncate">{activeEvent.dateTime}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <MapPin className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                    <span className="truncate">{activeEvent.venue}</span>
+                  </div>
+                </div>
+
+                {activeEvent.description && (
+                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400 font-sans line-clamp-2 pt-1 border-t border-zinc-200 dark:border-zinc-700">
+                    {activeEvent.description}
+                  </p>
+                )}
+              </div>
 
               <div>
                 <label className="block font-bold text-black dark:text-white mb-1">
@@ -193,7 +307,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                   placeholder="e.g. Rahul Sharma"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
+                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans text-xs"
                 />
               </div>
 
@@ -207,7 +321,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                   placeholder="student@rknec.edu"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
+                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans text-xs"
                 />
               </div>
 
@@ -245,46 +359,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                 </div>
               </div>
 
-              {/* Domain Dropdown Button in rectangular format */}
-              <div className="relative">
-                <label className="block font-bold text-black dark:text-white mb-1">
-                  Select Domain / Track *
-                </label>
-                
-                <button
-                  type="button"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full p-2.5 rounded-sm btn-minimal btn-white flex items-center justify-between text-left text-black dark:text-white cursor-pointer"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs text-zinc-500">Domain:</span>
-                    <span className="font-bold text-xs text-blue-600 dark:text-blue-400">{selectedDomain}</span>
-                  </div>
-                  <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
-                </button>
-
-                {isDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-1 z-20 bg-white dark:bg-zinc-900 border-2 border-black rounded-sm p-1.5 shadow-[4px_4px_0px_#000] space-y-1 animate-fade-in max-h-52 overflow-y-auto">
-                    {AVAILABLE_DOMAINS.map((domain) => (
-                      <button
-                        key={domain}
-                        type="button"
-                        onClick={() => { setSelectedDomain(domain); setIsDropdownOpen(false); }}
-                        className={`w-full px-3 py-2 rounded-sm text-left flex items-center justify-between transition-all cursor-pointer ${
-                          selectedDomain === domain
-                            ? "btn-minimal btn-blue text-white"
-                            : "hover:bg-zinc-100 dark:hover:bg-zinc-800 text-black dark:text-white font-medium"
-                        }`}
-                      >
-                        <span className="text-xs">{domain}</span>
-                        {selectedDomain === domain && <Check className="w-3.5 h-3.5 text-white" />}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Submit Button in rectangular format */}
+              {/* Submit Button in sleek rectangular format */}
               <div className="pt-2">
                 <button
                   type="submit"
@@ -294,7 +369,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                   {loading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin text-white" />
-                      <span>Issuing Pass...</span>
+                      <span>Generating Pass & QR Code...</span>
                     </>
                   ) : (
                     <>
