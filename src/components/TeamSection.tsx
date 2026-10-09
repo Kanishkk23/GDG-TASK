@@ -23,7 +23,7 @@ const coreLeads: TeamMember[] = [
   {
     name: "Vivian Demello",
     role: "MAC Lead",
-    domain: "MAC (Mobile, Android & Apple)",
+    domain: "MAC",
     linkedin: "https://www.linkedin.com/in/viviandemello/",
     colorClass: "btn-red",
   },
@@ -177,12 +177,11 @@ export default function TeamSection() {
                           {member.name.charAt(0)}
                         </div>
                         <span className="text-[10px] font-mono px-2 py-0.5 border border-black dark:border-zinc-500 rounded-sm bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold uppercase">
-                          {member.role}
+                          {member.domain}
                         </span>
                       </div>
                       <div className="font-bold text-base text-black dark:text-white leading-snug">{member.name}</div>
-                      <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-0.5">{member.role}</div>
-                      <div className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 mt-1">{member.domain}</div>
+                      <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-1">{member.role}</div>
                     </div>
 
                     <a
