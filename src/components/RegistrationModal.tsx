@@ -96,11 +96,11 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
-      <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl border-3 border-black dark:border-zinc-400 rounded-3xl w-full max-w-lg shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-400 rounded-sm w-full max-w-lg shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden">
         
         {/* Modal Header */}
-        <div className="ios-glass-blue text-white p-4 border-b-2 border-black flex items-center justify-between">
+        <div className="bg-[#4285F4] text-white p-4 border-b-2 border-black flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Ticket className="w-5 h-5 text-yellow-300" />
             <h3 className="font-display-pixel text-base sm:text-lg font-bold">
@@ -110,7 +110,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
           <button
             onClick={resetForm}
             aria-label="Close"
-            className="w-8 h-8 rounded-xl ios-glass-btn ios-glass-dark text-white flex items-center justify-center cursor-pointer"
+            className="w-8 h-8 rounded-sm btn-minimal btn-dark text-white flex items-center justify-center cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -121,7 +121,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
           {response ? (
             /* Success Ticket Preview */
             <div className="text-center space-y-4 py-2">
-              <div className="w-14 h-14 rounded-2xl ios-glass-btn ios-glass-green text-white flex items-center justify-center mx-auto">
+              <div className="w-14 h-14 rounded-sm btn-minimal btn-green text-white flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-8 h-8 text-white" />
               </div>
 
@@ -135,10 +135,10 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
               </div>
 
               {/* Digital Pass Card */}
-              <div className="p-5 bg-white/70 dark:bg-zinc-800/80 backdrop-blur-xl border-2 border-black rounded-2xl shadow-[4px_4px_0px_#000] text-left space-y-3 font-mono">
+              <div className="p-5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm shadow-[4px_4px_0px_#000] text-left space-y-3 font-mono">
                 <div className="flex justify-between items-center border-b border-zinc-300 dark:border-zinc-700 pb-2">
                   <span className="text-xs text-zinc-500">DIGITAL EVENT PASS</span>
-                  <span className="px-2.5 py-0.5 rounded-full ios-glass-btn ios-glass-blue text-white text-[10px] font-bold">
+                  <span className="px-2.5 py-0.5 rounded-sm btn-minimal btn-blue text-white text-[10px] font-bold">
                     CONFIRMED
                   </span>
                 </div>
@@ -160,7 +160,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
 
               <button
                 onClick={resetForm}
-                className="w-full py-3.5 rounded-2xl ios-glass-btn ios-glass-dark text-white font-bold font-mono text-xs uppercase tracking-wider cursor-pointer"
+                className="w-full py-3.5 rounded-sm btn-minimal btn-dark text-white font-bold font-mono text-xs uppercase tracking-wider cursor-pointer"
               >
                 Close & Return
               </button>
@@ -169,7 +169,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
             /* Registration Form */
             <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
               {errorMsg && (
-                <div className="p-3 bg-red-100 text-red-800 border-2 border-red-500 rounded-xl flex items-center gap-2">
+                <div className="p-3 bg-red-100 text-red-800 border-2 border-red-500 rounded-sm flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{errorMsg}</span>
                 </div>
@@ -177,7 +177,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
 
               {/* Event highlight box */}
               {event && (
-                <div className="p-3 bg-blue-50 dark:bg-blue-950/40 rounded-xl border border-blue-200 dark:border-blue-800 text-xs">
+                <div className="p-3 bg-blue-50 dark:bg-blue-950/40 rounded-sm border border-blue-200 dark:border-blue-800 text-xs">
                   <div className="font-bold text-blue-900 dark:text-blue-300">{event.title}</div>
                   <div className="text-[11px] text-blue-700 dark:text-blue-400 mt-0.5">{event.dateTime} • {event.venue}</div>
                 </div>
@@ -193,7 +193,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                   placeholder="e.g. Rahul Sharma"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full p-3 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white focus:outline-none font-sans"
+                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
                 />
               </div>
 
@@ -207,7 +207,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                   placeholder="student@rknec.edu"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-3 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white focus:outline-none font-sans"
+                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
                 />
               </div>
 
@@ -219,7 +219,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                   <select
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-mono text-xs"
+                    className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono text-xs cursor-pointer"
                   >
                     <option value="Computer Science & Engineering">CSE</option>
                     <option value="Information Technology">IT</option>
@@ -235,7 +235,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                   <select
                     value={year}
                     onChange={(e) => setYear(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-mono text-xs"
+                    className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono text-xs cursor-pointer"
                   >
                     <option value="1st Year">1st Year</option>
                     <option value="2nd Year">2nd Year</option>
@@ -245,7 +245,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                 </div>
               </div>
 
-              {/* Domain Dropdown Button */}
+              {/* Domain Dropdown Button in rectangular format */}
               <div className="relative">
                 <label className="block font-bold text-black dark:text-white mb-1">
                   Select Domain / Track *
@@ -254,7 +254,7 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                 <button
                   type="button"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full p-3 rounded-2xl ios-glass-btn flex items-center justify-between text-left border-2 border-black dark:border-white/30 text-black dark:text-white cursor-pointer"
+                  className="w-full p-2.5 rounded-sm btn-minimal btn-white flex items-center justify-between text-left text-black dark:text-white cursor-pointer"
                 >
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-xs text-zinc-500">Domain:</span>
@@ -264,15 +264,15 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                 </button>
 
                 {isDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 z-20 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl border-2 border-black dark:border-white/20 rounded-2xl p-2 shadow-2xl space-y-1 animate-fade-in max-h-52 overflow-y-auto">
+                  <div className="absolute top-full left-0 right-0 mt-1 z-20 bg-white dark:bg-zinc-900 border-2 border-black rounded-sm p-1.5 shadow-[4px_4px_0px_#000] space-y-1 animate-fade-in max-h-52 overflow-y-auto">
                     {AVAILABLE_DOMAINS.map((domain) => (
                       <button
                         key={domain}
                         type="button"
                         onClick={() => { setSelectedDomain(domain); setIsDropdownOpen(false); }}
-                        className={`w-full px-3 py-2 rounded-xl text-left flex items-center justify-between transition-all cursor-pointer ${
+                        className={`w-full px-3 py-2 rounded-sm text-left flex items-center justify-between transition-all cursor-pointer ${
                           selectedDomain === domain
-                            ? "ios-glass-btn ios-glass-blue font-bold text-white"
+                            ? "btn-minimal btn-blue text-white"
                             : "hover:bg-zinc-100 dark:hover:bg-zinc-800 text-black dark:text-white font-medium"
                         }`}
                       >
@@ -284,12 +284,12 @@ export default function RegistrationModal({ isOpen, onClose, event, onRegistered
                 )}
               </div>
 
-              {/* Submit Button */}
+              {/* Submit Button in rectangular format */}
               <div className="pt-2">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 rounded-2xl ios-glass-btn ios-glass-green text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3.5 rounded-sm btn-minimal btn-green text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {loading ? (
                     <>

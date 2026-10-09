@@ -33,7 +33,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Neo-Brutalist Classes */
+/* Custom Neo-Brutalist Containers */
 .brutal-box {
   background-color: var(--card-bg);
   border: 2px solid #000000;
@@ -56,159 +56,191 @@ body {
 }
 
 /* =========================================================================
-   iOS 27 Liquid Glass Button Styles (Frosted Glass, Specular Highlights & Depth)
+   Sleek Minimal Rectangular Button System (High-contrast, clean & responsive)
    ========================================================================= */
+.btn-minimal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px; /* Sleek rectangular format */
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.dark .btn-minimal {
+  border-color: #E4E4E7;
+  box-shadow: 3px 3px 0px #E4E4E7;
+}
+
+.btn-minimal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px #000000;
+}
+
+.dark .btn-minimal:hover {
+  box-shadow: 5px 5px 0px #E4E4E7;
+}
+
+.btn-minimal:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #000000;
+}
+
+.dark .btn-minimal:active {
+  box-shadow: 0px 0px 0px #E4E4E7;
+}
+
+/* Color Variants for Minimal Rectangular Buttons */
+.btn-blue {
+  background-color: #4285F4;
+  color: #FFFFFF;
+}
+.btn-blue:hover {
+  background-color: #3367D6;
+}
+
+.btn-red {
+  background-color: #EA4335;
+  color: #FFFFFF;
+}
+.btn-red:hover {
+  background-color: #D93025;
+}
+
+.btn-yellow {
+  background-color: #FBBC04;
+  color: #000000;
+}
+.btn-yellow:hover {
+  background-color: #F9AB00;
+}
+
+.btn-green {
+  background-color: #34A853;
+  color: #FFFFFF;
+}
+.btn-green:hover {
+  background-color: #1E8E3E;
+}
+
+.btn-purple {
+  background-color: #6750A4;
+  color: #FFFFFF;
+}
+.btn-purple:hover {
+  background-color: #553C9A;
+}
+
+.btn-cyan {
+  background-color: #38BDF8;
+  color: #000000;
+}
+.btn-cyan:hover {
+  background-color: #0EA5E9;
+}
+
+.btn-dark {
+  background-color: #111827;
+  color: #FFFFFF;
+}
+.btn-dark:hover {
+  background-color: #000000;
+}
+.dark .btn-dark {
+  background-color: #FFFFFF;
+  color: #000000;
+  border-color: #FFFFFF;
+}
+.dark .btn-dark:hover {
+  background-color: #F3F4F6;
+}
+
+.btn-white {
+  background-color: #FFFFFF;
+  color: #111827;
+}
+.btn-white:hover {
+  background-color: #F3F4F6;
+}
+.dark .btn-white {
+  background-color: #181920;
+  color: #FFFFFF;
+}
+.dark .btn-white:hover {
+  background-color: #232530;
+}
+
+/* Backward-compatibility aliases mapped to sleek minimal buttons */
 .ios-glass-btn {
-  position: relative;
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1.5px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.08),
-              inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.8),
-              inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.08);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  background: #FFFFFF;
+  color: #000000;
 }
-
 .dark .ios-glass-btn {
-  background: rgba(30, 32, 42, 0.55);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.4),
-              inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.28),
-              inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.3);
+  border-color: #E4E4E7 !important;
+  box-shadow: 3px 3px 0px #E4E4E7 !important;
+  background: #181920;
+  color: #FFFFFF;
 }
-
 .ios-glass-btn:hover {
-  background: rgba(255, 255, 255, 0.65);
-  border-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.14),
-              inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.95);
-  transform: translateY(-2px) scale(1.02);
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0px #000000 !important;
 }
-
 .dark .ios-glass-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.38);
-  box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.6),
-              inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.45);
-  transform: translateY(-2px) scale(1.02);
+  box-shadow: 5px 5px 0px #E4E4E7 !important;
 }
-
 .ios-glass-btn:active {
-  transform: translateY(1px) scale(0.97);
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1),
-              inset 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+}
+.dark .ios-glass-btn:active {
+  box-shadow: 0px 0px 0px #E4E4E7 !important;
 }
 
-/* Glass shine specular reflection */
-.ios-glass-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 48%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%);
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-.dark .ios-glass-btn::after {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%);
-}
-
-/* Brand colored iOS Glass Variants */
 .ios-glass-blue {
-  background: rgba(66, 133, 244, 0.8) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+  background: #4285F4 !important;
   color: #FFFFFF !important;
-  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.65) !important;
 }
-.ios-glass-blue:hover {
-  background: rgba(66, 133, 244, 0.95) !important;
-  box-shadow: 0 8px 28px rgba(66, 133, 244, 0.55), inset 0 1.5px 2px rgba(255, 255, 255, 0.85) !important;
-}
-
 .ios-glass-red {
-  background: rgba(234, 67, 53, 0.8) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+  background: #EA4335 !important;
   color: #FFFFFF !important;
-  box-shadow: 0 6px 20px rgba(234, 67, 53, 0.4), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.65) !important;
 }
-.ios-glass-red:hover {
-  background: rgba(234, 67, 53, 0.95) !important;
-  box-shadow: 0 8px 28px rgba(234, 67, 53, 0.55), inset 0 1.5px 2px rgba(255, 255, 255, 0.85) !important;
-}
-
 .ios-glass-yellow {
-  background: rgba(255, 214, 0, 0.85) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
-  color: #111827 !important;
-  box-shadow: 0 6px 20px rgba(255, 214, 0, 0.45), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.85) !important;
+  background: #FBBC04 !important;
+  color: #000000 !important;
 }
-.ios-glass-yellow:hover {
-  background: rgba(255, 214, 0, 0.98) !important;
-  box-shadow: 0 8px 28px rgba(255, 214, 0, 0.6), inset 0 1.5px 2px rgba(255, 255, 255, 0.95) !important;
-}
-
 .ios-glass-green {
-  background: rgba(52, 168, 83, 0.8) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+  background: #34A853 !important;
   color: #FFFFFF !important;
-  box-shadow: 0 6px 20px rgba(52, 168, 83, 0.4), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.65) !important;
 }
-.ios-glass-green:hover {
-  background: rgba(52, 168, 83, 0.95) !important;
-  box-shadow: 0 8px 28px rgba(52, 168, 83, 0.55), inset 0 1.5px 2px rgba(255, 255, 255, 0.85) !important;
-}
-
 .ios-glass-purple {
-  background: rgba(103, 80, 164, 0.8) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+  background: #6750A4 !important;
   color: #FFFFFF !important;
-  box-shadow: 0 6px 20px rgba(103, 80, 164, 0.4), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.65) !important;
 }
-.ios-glass-purple:hover {
-  background: rgba(103, 80, 164, 0.95) !important;
-  box-shadow: 0 8px 28px rgba(103, 80, 164, 0.55), inset 0 1.5px 2px rgba(255, 255, 255, 0.85) !important;
-}
-
 .ios-glass-cyan {
-  background: rgba(56, 189, 248, 0.85) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.65) !important;
-  color: #0F172A !important;
-  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.8) !important;
+  background: #38BDF8 !important;
+  color: #000000 !important;
 }
-.ios-glass-cyan:hover {
-  background: rgba(56, 189, 248, 0.98) !important;
-  box-shadow: 0 8px 28px rgba(56, 189, 248, 0.55), inset 0 1.5px 2px rgba(255, 255, 255, 0.9) !important;
-}
-
 .ios-glass-dark {
-  background: rgba(20, 20, 26, 0.82) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.28) !important;
+  background: #111827 !important;
   color: #FFFFFF !important;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.35) !important;
 }
-.ios-glass-dark:hover {
-  background: rgba(10, 10, 14, 0.95) !important;
-  border-color: rgba(255, 255, 255, 0.45) !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 1.5px 2px rgba(255, 255, 255, 0.5) !important;
+.dark .ios-glass-dark {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border-color: #FFFFFF !important;
 }
 
 /* Custom retro font display */

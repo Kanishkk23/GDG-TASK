@@ -29,7 +29,6 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
   const [message, setMessage] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Form mode: "list" | "create" | "edit" | "attendees"
   const [mode, setMode] = useState<"list" | "create" | "edit" | "attendees">("list");
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [attendeesList, setAttendeesList] = useState<any[]>([]);
@@ -208,11 +207,11 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
-      <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl border-3 border-black dark:border-zinc-400 rounded-3xl w-full max-w-2xl shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden flex flex-col max-h-[88vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-400 rounded-sm w-full max-w-2xl shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden flex flex-col max-h-[88vh]">
         
         {/* Header */}
-        <div className="ios-glass-yellow text-black p-4 border-b-2 border-black flex items-center justify-between">
+        <div className="bg-[#FBBC04] text-black p-4 border-b-2 border-black flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-black" />
             <h3 className="font-display-pixel text-base font-bold">
@@ -222,7 +221,7 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-xl ios-glass-btn ios-glass-dark text-white flex items-center justify-center cursor-pointer"
+            className="w-8 h-8 rounded-sm btn-minimal btn-dark text-white flex items-center justify-center cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -233,13 +232,13 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
           <div className="flex items-center gap-2">
             <button
               onClick={() => { setMode("list"); setMessage(null); setErrorMsg(null); }}
-              className={`px-3 py-1.5 rounded-lg ios-glass-btn ${mode === "list" ? "ios-glass-dark text-white" : ""}`}
+              className={`px-3 py-1.5 rounded-sm btn-minimal ${mode === "list" ? "btn-dark text-white" : "btn-white text-black dark:text-white"}`}
             >
               All Events ({events.length})
             </button>
             <button
               onClick={handleOpenCreate}
-              className={`px-3 py-1.5 rounded-lg ios-glass-btn ios-glass-blue text-white flex items-center gap-1`}
+              className="px-3 py-1.5 rounded-sm btn-minimal btn-blue text-white flex items-center gap-1"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Create New Event</span>
@@ -251,14 +250,14 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
         {/* Content Body */}
         <div className="p-6 overflow-y-auto flex-1 space-y-4">
           {message && (
-            <div className="p-3 bg-green-100 text-green-800 border-2 border-green-500 rounded-xl text-xs font-mono flex items-center gap-2">
+            <div className="p-3 bg-green-100 text-green-800 border-2 border-green-500 rounded-sm text-xs font-mono flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-green-600" />
               <span>{message}</span>
             </div>
           )}
 
           {errorMsg && (
-            <div className="p-3 bg-red-100 text-red-800 border-2 border-red-500 rounded-xl text-xs font-mono flex items-center gap-2">
+            <div className="p-3 bg-red-100 text-red-800 border-2 border-red-500 rounded-sm text-xs font-mono flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-red-600" />
               <span>{errorMsg}</span>
             </div>
@@ -276,11 +275,11 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                 events.map((event) => (
                   <div
                     key={event.id}
-                    className="p-4 bg-white/70 dark:bg-zinc-800/80 backdrop-blur-xl border-2 border-black rounded-2xl shadow-[3px_3px_0px_#000] font-mono flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    className="p-4 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm shadow-[3px_3px_0px_#000] font-mono flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                   >
                     <div className="space-y-1 max-w-md">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="px-2 py-0.5 rounded-md ios-glass-btn ios-glass-blue text-white text-[10px] font-bold">
+                        <span className="px-2 py-0.5 rounded-sm btn-minimal btn-blue text-white text-[10px] font-bold">
                           {event.category}
                         </span>
                         <h4 className="font-bold text-sm text-black dark:text-white">
@@ -292,24 +291,21 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                         <span>•</span>
                         <span>{event.venue}</span>
                       </div>
-                      <div className="text-xs font-bold text-amber-600 dark:text-amber-400">
-                        Capacity: {event.registeredCount} / {event.capacity} seats ({Math.round((event.registeredCount / event.capacity) * 100)}%)
-                      </div>
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => handleOpenAttendees(event)}
-                        className="p-2 rounded-xl ios-glass-btn text-black dark:text-white text-xs flex items-center gap-1 cursor-pointer"
+                        className="px-2.5 py-1.5 rounded-sm btn-minimal btn-white text-black dark:text-white text-xs flex items-center gap-1 cursor-pointer"
                         title="View Attendees"
                       >
                         <Users className="w-4 h-4 text-blue-600" />
-                        <span className="text-[11px] font-bold">{event.registeredCount}</span>
+                        <span className="text-[11px] font-bold">Attendees</span>
                       </button>
 
                       <button
                         onClick={() => handleOpenEdit(event)}
-                        className="p-2 rounded-xl ios-glass-btn ios-glass-yellow text-black text-xs cursor-pointer"
+                        className="p-1.5 rounded-sm btn-minimal btn-yellow text-black text-xs cursor-pointer"
                         title="Edit Event"
                       >
                         <Edit2 className="w-4 h-4" />
@@ -317,7 +313,7 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
 
                       <button
                         onClick={() => handleDeleteEvent(event)}
-                        className="p-2 rounded-xl ios-glass-btn ios-glass-red text-white text-xs cursor-pointer"
+                        className="p-1.5 rounded-sm btn-minimal btn-red text-white text-xs cursor-pointer"
                         title="Delete Event"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -346,7 +342,7 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                   placeholder="e.g. Next.js & AI Hackathon"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-sans"
+                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans"
                 />
               </div>
 
@@ -360,7 +356,7 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                   placeholder="Comprehensive event details..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-sans text-xs"
+                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs"
                 />
               </div>
 
@@ -375,7 +371,7 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                     placeholder="e.g. 15th November 2024 • 3:00 PM"
                     value={dateTime}
                     onChange={(e) => setDateTime(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-sans text-xs"
+                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs"
                   />
                 </div>
 
@@ -389,7 +385,7 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                     placeholder="e.g. Main Auditorium"
                     value={venue}
                     onChange={(e) => setVenue(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-sans text-xs"
+                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs"
                   />
                 </div>
               </div>
@@ -405,13 +401,8 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                     required
                     value={capacity}
                     onChange={(e) => setCapacity(parseInt(e.target.value, 10))}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-mono text-xs"
+                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono text-xs"
                   />
-                  {selectedEvent && (
-                    <span className="text-[10px] text-zinc-500">
-                      Cannot be lower than current attendees ({selectedEvent.registeredCount})
-                    </span>
-                  )}
                 </div>
 
                 <div>
@@ -421,7 +412,7 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-mono text-xs cursor-pointer"
+                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono text-xs cursor-pointer"
                   >
                     {AVAILABLE_CATEGORIES.map((cat) => (
                       <option key={cat} value={cat}>
@@ -436,7 +427,7 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="flex-1 py-3.5 rounded-2xl ios-glass-btn ios-glass-green text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+                  className="flex-1 py-3 rounded-sm btn-minimal btn-green text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {actionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                   <span>{mode === "create" ? "Create Event" : "Save Changes"}</span>
@@ -444,7 +435,7 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                 <button
                   type="button"
                   onClick={() => setMode("list")}
-                  className="px-5 py-3.5 rounded-2xl ios-glass-btn text-black dark:text-white font-bold text-xs cursor-pointer"
+                  className="px-5 py-3 rounded-sm btn-minimal btn-white text-black dark:text-white font-bold text-xs cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -461,12 +452,12 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                     Attendees for {selectedEvent?.title}
                   </h4>
                   <span className="text-xs text-zinc-500">
-                    {attendeesList.length} of {selectedEvent?.capacity} seats occupied
+                    {attendeesList.length} total attendees
                   </span>
                 </div>
                 <button
                   onClick={() => setMode("list")}
-                  className="px-3 py-1.5 rounded-lg ios-glass-btn text-xs font-bold"
+                  className="px-3 py-1.5 rounded-sm btn-minimal btn-white text-xs font-bold"
                 >
                   ← Back to List
                 </button>
@@ -486,14 +477,14 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                   {attendeesList.map((attendee, idx) => (
                     <div
                       key={attendee.id || idx}
-                      className="p-3 bg-zinc-50 dark:bg-zinc-800 rounded-xl border border-black/20 flex items-center justify-between text-xs"
+                      className="p-3 bg-zinc-50 dark:bg-zinc-800 rounded-sm border border-black/20 flex items-center justify-between text-xs"
                     >
                       <div>
                         <span className="font-bold text-black dark:text-white">{attendee.userName}</span>
                         <div className="text-[11px] text-zinc-500">{attendee.userEmail} • {attendee.department} ({attendee.year})</div>
                       </div>
                       <div className="text-right">
-                        <span className="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold">
+                        <span className="px-2 py-0.5 rounded-sm bg-blue-100 text-blue-800 text-[10px] font-bold">
                           {attendee.ticketId}
                         </span>
                         <div className="text-[10px] text-zinc-400 mt-0.5">{attendee.domain}</div>

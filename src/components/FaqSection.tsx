@@ -6,7 +6,6 @@ import { FaqItem } from "@/types";
 import { initialFaqs } from "@/lib/store";
 
 export default function FaqSection() {
-  // First item open by default matching Figma design
   const [openIds, setOpenIds] = useState<string[]>(["faq-1"]);
 
   const toggleFaq = (id: string) => {
@@ -39,17 +38,17 @@ export default function FaqSection() {
             return (
               <div
                 key={faq.id}
-                className="bg-white dark:bg-zinc-900 border-2.5 border-black dark:border-zinc-500 rounded-xl shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#fff] transition-all overflow-hidden"
+                className="bg-white dark:bg-zinc-900 border-2.5 border-black dark:border-zinc-500 rounded-sm shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#fff] transition-all overflow-hidden"
               >
                 <button
                   onClick={() => toggleFaq(faq.id)}
                   aria-expanded={isOpen}
-                  className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-mono font-bold text-sm sm:text-base text-black dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
+                  className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-mono font-bold text-sm sm:text-base text-black dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors cursor-pointer"
                 >
                   <span>{faq.question}</span>
                   <div
-                    className={`w-8 h-8 rounded-xl ios-glass-btn flex items-center justify-center transition-transform duration-200 cursor-pointer ${
-                      isOpen ? "rotate-180 ios-glass-yellow text-black" : "text-black dark:text-white"
+                    className={`w-8 h-8 rounded-sm btn-minimal flex items-center justify-center transition-transform duration-200 cursor-pointer ${
+                      isOpen ? "rotate-180 btn-yellow text-black" : "btn-white text-black dark:text-white"
                     }`}
                   >
                     <ChevronDown className="w-4 h-4" />

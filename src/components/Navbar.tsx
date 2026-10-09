@@ -10,16 +10,16 @@ import { useAuth } from "./AuthContext";
 interface NavBadge {
   label: string;
   href: string;
-  glassClass: string;
+  colorClass: string;
 }
 
 const navBadges: NavBadge[] = [
-  { label: "Home", href: "#hero", glassClass: "ios-glass-blue" },
-  { label: "About", href: "#team", glassClass: "ios-glass-red" },
-  { label: "Events", href: "#events", glassClass: "ios-glass-yellow" },
-  { label: "Team", href: "#team", glassClass: "ios-glass-green" },
-  { label: "FAQs", href: "#faqs", glassClass: "ios-glass-purple" },
-  { label: "Contact", href: "#contact", glassClass: "ios-glass-cyan" },
+  { label: "Home", href: "#hero", colorClass: "btn-blue" },
+  { label: "About", href: "#team", colorClass: "btn-red" },
+  { label: "Events", href: "#events", colorClass: "btn-yellow" },
+  { label: "Team", href: "#team", colorClass: "btn-green" },
+  { label: "FAQs", href: "#faqs", colorClass: "btn-purple" },
+  { label: "Contact", href: "#contact", colorClass: "btn-cyan" },
 ];
 
 interface NavbarProps {
@@ -39,12 +39,12 @@ export default function Navbar({
   const { user, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/60 dark:bg-[#0E0F12]/75 border-b border-black/10 dark:border-white/10 transition-colors shadow-sm">
+    <header className="sticky top-0 z-40 w-full bg-[#F8F9FA] dark:bg-[#0E0F12] border-b-2 border-black dark:border-zinc-700 transition-colors shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         
         {/* Left: GDG Logo + Chapter Label */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-7 relative flex items-center justify-center transition-transform group-hover:scale-110">
+          <div className="w-10 h-7 relative flex items-center justify-center transition-transform group-hover:scale-105">
             <Image
               src="/assets/gdg-logo.svg"
               alt="GDG Logo"
@@ -64,28 +64,28 @@ export default function Navbar({
           </div>
         </Link>
 
-        {/* Center: Multi-color iOS Glass pill badges */}
+        {/* Center: Sleek Minimal Rectangular Badges */}
         <nav className="hidden lg:flex items-center gap-2">
           {navBadges.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              className={`px-4 py-1.5 text-xs font-bold rounded-full ios-glass-btn ${item.glassClass} transition-all`}
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-sm btn-minimal ${item.colorClass} transition-all`}
             >
               {item.label}
             </a>
           ))}
         </nav>
 
-        {/* Right: Actions & User Authentication */}
-        <div className="flex items-center gap-2.5">
+        {/* Right: Actions & User Auth */}
+        <div className="flex items-center gap-2">
           {user ? (
             <div className="flex items-center gap-2">
               {/* If Admin: show Admin Portal Button */}
               {user.role === "admin" && (
                 <button
                   onClick={onOpenAdminModal}
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold rounded-xl ios-glass-btn ios-glass-yellow text-black cursor-pointer"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold rounded-sm btn-minimal btn-yellow text-black cursor-pointer"
                 >
                   <Shield className="w-3.5 h-3.5" />
                   <span>Admin Console</span>
@@ -96,7 +96,7 @@ export default function Navbar({
               {user.role !== "admin" && (
                 <button
                   onClick={onOpenMyRegistrations}
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold rounded-xl ios-glass-btn ios-glass-green text-white cursor-pointer"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold rounded-sm btn-minimal btn-green text-white cursor-pointer"
                 >
                   <Ticket className="w-3.5 h-3.5 text-yellow-300" />
                   <span>My Passes</span>
@@ -104,10 +104,10 @@ export default function Navbar({
               )}
 
               {/* User badge */}
-              <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-xl ios-glass-btn text-xs font-mono">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-sm border-2 border-black dark:border-zinc-500 bg-white dark:bg-zinc-800 text-xs font-mono">
+                <span className="w-2 h-2 rounded-full bg-green-500"></span>
                 <span className="font-bold text-black dark:text-white truncate max-w-[100px]">{user.name.split(" ")[0]}</span>
-                <span className="text-[10px] px-1.5 py-0.2 rounded bg-black/10 dark:bg-white/10 uppercase font-bold text-zinc-500">
+                <span className="text-[10px] px-1 py-0.2 rounded bg-black/10 dark:bg-white/10 uppercase font-bold text-zinc-500">
                   {user.role}
                 </span>
               </div>
@@ -116,7 +116,7 @@ export default function Navbar({
               <button
                 onClick={logout}
                 title="Logout"
-                className="p-2 rounded-xl ios-glass-btn text-zinc-700 dark:text-zinc-300 hover:text-red-600 cursor-pointer"
+                className="w-9 h-9 rounded-sm btn-minimal btn-white text-zinc-700 dark:text-zinc-300 hover:text-red-600 cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
               </button>
@@ -124,17 +124,17 @@ export default function Navbar({
           ) : (
             <button
               onClick={onOpenAuth}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-mono font-bold rounded-xl ios-glass-btn ios-glass-blue text-white cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-mono font-bold rounded-sm btn-minimal btn-blue text-white cursor-pointer"
             >
               <User className="w-3.5 h-3.5" />
               <span>Sign In</span>
             </button>
           )}
 
-          {/* Direct RSVP trigger */}
+          {/* Direct RSVP button */}
           <button
             onClick={onOpenRegister}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider rounded-xl ios-glass-btn ios-glass-dark text-white cursor-pointer"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider rounded-sm btn-minimal btn-dark text-white cursor-pointer"
           >
             RSVP
             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -147,7 +147,7 @@ export default function Navbar({
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            className="lg:hidden p-2 rounded-xl ios-glass-btn text-black dark:text-white"
+            className="lg:hidden w-9 h-9 rounded-sm btn-minimal btn-white text-black dark:text-white flex items-center justify-center"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -156,14 +156,14 @@ export default function Navbar({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-black/10 dark:border-white/10 backdrop-blur-2xl bg-white/85 dark:bg-zinc-900/90 px-4 py-4 space-y-3">
+        <div className="lg:hidden border-t-2 border-black dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-4 space-y-3">
           <div className="grid grid-cols-2 gap-2">
             {navBadges.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`py-2 text-center text-xs font-bold rounded-xl ios-glass-btn ${item.glassClass}`}
+                className={`py-2 text-center text-xs font-bold rounded-sm btn-minimal ${item.colorClass}`}
               >
                 {item.label}
               </a>
@@ -180,7 +180,7 @@ export default function Navbar({
                 {user.role === "admin" && (
                   <button
                     onClick={() => { setMobileMenuOpen(false); onOpenAdminModal(); }}
-                    className="w-full py-2.5 text-xs font-bold rounded-xl ios-glass-btn ios-glass-yellow text-black"
+                    className="w-full py-2.5 text-xs font-bold rounded-sm btn-minimal btn-yellow text-black"
                   >
                     Admin Console
                   </button>
@@ -188,7 +188,7 @@ export default function Navbar({
                 {user.role !== "admin" && (
                   <button
                     onClick={() => { setMobileMenuOpen(false); onOpenMyRegistrations(); }}
-                    className="w-full py-2.5 text-xs font-bold rounded-xl ios-glass-btn ios-glass-green text-white"
+                    className="w-full py-2.5 text-xs font-bold rounded-sm btn-minimal btn-green text-white"
                   >
                     My Event Passes
                   </button>
@@ -197,7 +197,7 @@ export default function Navbar({
             ) : (
               <button
                 onClick={() => { setMobileMenuOpen(false); onOpenAuth(); }}
-                className="w-full py-2.5 text-xs font-bold rounded-xl ios-glass-btn ios-glass-blue text-white flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 text-xs font-bold rounded-sm btn-minimal btn-blue text-white flex items-center justify-center gap-1.5"
               >
                 <User className="w-4 h-4" /> Sign In / Register
               </button>
@@ -205,7 +205,7 @@ export default function Navbar({
 
             <button
               onClick={() => { setMobileMenuOpen(false); onOpenRegister(); }}
-              className="w-full py-2.5 text-xs font-bold uppercase rounded-xl ios-glass-btn ios-glass-dark text-white"
+              className="w-full py-2.5 text-xs font-bold uppercase rounded-sm btn-minimal btn-dark text-white"
             >
               Register for Event Pass
             </button>

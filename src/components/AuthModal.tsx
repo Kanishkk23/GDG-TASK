@@ -81,11 +81,11 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
-      <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl border-3 border-black dark:border-zinc-400 rounded-3xl w-full max-w-md shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-400 rounded-sm w-full max-w-md shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden">
         
         {/* Modal Header */}
-        <div className="ios-glass-blue text-white p-4 border-b-2 border-black flex items-center justify-between">
+        <div className="bg-[#4285F4] text-white p-4 border-b-2 border-black flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-yellow-300" />
             <h3 className="font-display-pixel text-base font-bold">
@@ -95,13 +95,13 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-xl ios-glass-btn ios-glass-dark text-white flex items-center justify-center cursor-pointer"
+            className="w-8 h-8 rounded-sm btn-minimal btn-dark text-white flex items-center justify-center cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* 1-Click Demo Buttons */}
+        {/* 1-Click Demo Buttons in rectangular format */}
         <div className="p-4 bg-zinc-50 dark:bg-zinc-800/60 border-b border-zinc-200 dark:border-zinc-700">
           <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">
             ⚡ Quick 1-Click Demo Login
@@ -110,7 +110,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
             <button
               type="button"
               onClick={() => handleQuickDemo("admin")}
-              className="py-2 px-3 rounded-xl ios-glass-btn ios-glass-yellow text-black font-mono font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
+              className="py-2 px-3 rounded-sm btn-minimal btn-yellow text-black font-mono font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <Shield className="w-3.5 h-3.5" />
               <span>Login as Admin</span>
@@ -118,7 +118,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
             <button
               type="button"
               onClick={() => handleQuickDemo("student")}
-              className="py-2 px-3 rounded-xl ios-glass-btn ios-glass-green text-white font-mono font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
+              className="py-2 px-3 rounded-sm btn-minimal btn-green text-white font-mono font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <UserIcon className="w-3.5 h-3.5" />
               <span>Login as Student</span>
@@ -155,14 +155,14 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
         {/* Form Body */}
         <div className="p-6">
           {errorMsg && (
-            <div className="mb-4 p-3 bg-red-100 text-red-800 border-2 border-red-500 rounded-xl flex items-center gap-2 text-xs font-mono">
+            <div className="mb-4 p-3 bg-red-100 text-red-800 border-2 border-red-500 rounded-sm flex items-center gap-2 text-xs font-mono">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{errorMsg}</span>
             </div>
           )}
 
           {successMsg && (
-            <div className="mb-4 p-3 bg-green-100 text-green-800 border-2 border-green-500 rounded-xl flex items-center gap-2 text-xs font-mono">
+            <div className="mb-4 p-3 bg-green-100 text-green-800 border-2 border-green-500 rounded-sm flex items-center gap-2 text-xs font-mono">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
               <span>{successMsg}</span>
             </div>
@@ -182,7 +182,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
                     placeholder="student@rknec.edu"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-9 pr-3 py-3 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans"
+                    className="w-full pl-9 pr-3 py-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
                   />
                 </div>
               </div>
@@ -199,7 +199,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-9 pr-3 py-3 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans"
+                    className="w-full pl-9 pr-3 py-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
                   />
                 </div>
               </div>
@@ -207,7 +207,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-2xl ios-glass-btn ios-glass-blue text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer mt-2"
+                className="w-full py-3.5 rounded-sm btn-minimal btn-blue text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer mt-2"
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                 <span>Sign In</span>
@@ -225,7 +225,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
                   placeholder="e.g. Priya Sharma"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white focus:outline-none font-sans"
+                  className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
                 />
               </div>
 
@@ -239,7 +239,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
                   placeholder="priya@rknec.edu"
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
-                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white focus:outline-none font-sans"
+                  className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
                 />
               </div>
 
@@ -253,7 +253,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
                   placeholder="Create password"
                   value={regPassword}
                   onChange={(e) => setRegPassword(e.target.value)}
-                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white focus:outline-none font-sans"
+                  className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
                 />
               </div>
 
@@ -265,7 +265,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
                   <select
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-mono text-[11px]"
+                    className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono text-[11px]"
                   >
                     <option value="Computer Science & Engineering">CSE</option>
                     <option value="Information Technology">IT</option>
@@ -280,7 +280,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
                   <select
                     value={year}
                     onChange={(e) => setYear(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-xl text-black dark:text-white font-mono text-[11px]"
+                    className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono text-[11px]"
                   >
                     <option value="1st Year">1st Year</option>
                     <option value="2nd Year">2nd Year</option>
@@ -296,17 +296,17 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
                   id="isAdminCheck"
                   checked={isAdmin}
                   onChange={(e) => setIsAdmin(e.target.checked)}
-                  className="w-4 h-4 accent-blue-600 rounded"
+                  className="w-4 h-4 accent-blue-600"
                 />
-                <label htmlFor="isAdminCheck" className="text-zinc-700 dark:text-zinc-300 cursor-pointer">
-                  Register as Chapter Admin (Manage events)
+                <label htmlFor="isAdminCheck" className="text-zinc-700 dark:text-zinc-300 cursor-pointer text-xs">
+                  Register as Chapter Admin
                 </label>
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-2xl ios-glass-btn ios-glass-green text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer mt-3"
+                className="w-full py-3.5 rounded-sm btn-minimal btn-green text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer mt-3"
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                 <span>Create Account</span>

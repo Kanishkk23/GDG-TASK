@@ -35,7 +35,7 @@ export default function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-10 h-10 rounded-xl ios-glass-btn bg-amber-300"></div>
+      <div className="w-9 h-9 rounded-sm border-2 border-black bg-amber-300"></div>
     );
   }
 
@@ -43,12 +43,12 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       aria-label="Toggle Dark/Light Mode"
-      className="p-2.5 rounded-xl ios-glass-btn flex items-center justify-center text-black dark:text-yellow-400 group cursor-pointer"
+      className="w-9 h-9 rounded-sm btn-minimal btn-yellow flex items-center justify-center cursor-pointer transition-transform"
     >
       {isDark ? (
-        <Sun className="w-4 h-4 text-yellow-300 transition-transform group-hover:rotate-45" />
+        <Sun className="w-4 h-4 text-black" />
       ) : (
-        <Moon className="w-4 h-4 text-zinc-900 transition-transform group-hover:-rotate-12" />
+        <Moon className="w-4 h-4 text-black" />
       )}
     </button>
   );

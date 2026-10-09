@@ -8,16 +8,16 @@ interface TeamMember {
   name: string;
   role: string;
   domain: string;
-  avatarGlass: string;
+  colorClass: string;
 }
 
 const coreLeads: TeamMember[] = [
-  { name: "Aarav Sharma", role: "GDG Campus Lead", domain: "Lead Organizer", avatarGlass: "ios-glass-blue" },
-  { name: "Priya Patel", role: "Web Dev Lead", domain: "Full Stack & Next.js", avatarGlass: "ios-glass-red" },
-  { name: "Rohan Deshmukh", role: "MAC Lead", domain: "Mobile, Android & Apple", avatarGlass: "ios-glass-yellow" },
-  { name: "Sneha Kulkarni", role: "Design Lead", domain: "UI/UX & Branding", avatarGlass: "ios-glass-purple" },
-  { name: "Aditya Varma", role: "Competitive Programming Lead", domain: "Algorithms & Contests", avatarGlass: "ios-glass-green" },
-  { name: "Tanvi Joshi", role: "Marketing & Socials Lead", domain: "Outreach & Media", avatarGlass: "ios-glass-cyan" },
+  { name: "Aarav Sharma", role: "GDG Campus Lead", domain: "Lead Organizer", colorClass: "btn-blue" },
+  { name: "Priya Patel", role: "Web Dev Lead", domain: "Full Stack & Next.js", colorClass: "btn-red" },
+  { name: "Rohan Deshmukh", role: "MAC Lead", domain: "Mobile, Android & Apple", colorClass: "btn-yellow" },
+  { name: "Sneha Kulkarni", role: "Design Lead", domain: "UI/UX & Branding", colorClass: "btn-purple" },
+  { name: "Aditya Varma", role: "Competitive Programming Lead", domain: "Algorithms & Contests", colorClass: "btn-green" },
+  { name: "Tanvi Joshi", role: "Marketing & Socials Lead", domain: "Outreach & Media", colorClass: "btn-cyan" },
 ];
 
 export default function TeamSection() {
@@ -28,7 +28,7 @@ export default function TeamSection() {
       <div className="max-w-6xl mx-auto px-4">
         
         {/* Main brutalist card container */}
-        <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-500 rounded-2xl p-6 sm:p-10 shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff]">
+        <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-500 rounded-sm p-6 sm:p-10 shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff]">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
@@ -47,9 +47,9 @@ export default function TeamSection() {
               <div className="space-y-4 pt-2">
                 
                 {/* Feature 1 */}
-                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-2xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
                   <div className="flex items-start gap-3">
-                    <div className="p-2.5 rounded-xl ios-glass-btn ios-glass-blue text-white">
+                    <div className="p-2.5 rounded-sm btn-minimal btn-blue text-white">
                       <Wrench className="w-5 h-5" />
                     </div>
                     <div>
@@ -64,9 +64,9 @@ export default function TeamSection() {
                 </div>
 
                 {/* Feature 2 */}
-                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-2xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
                   <div className="flex items-start gap-3">
-                    <div className="p-2.5 rounded-xl ios-glass-btn ios-glass-green text-white">
+                    <div className="p-2.5 rounded-sm btn-minimal btn-green text-white">
                       <Network className="w-5 h-5" />
                     </div>
                     <div>
@@ -82,10 +82,10 @@ export default function TeamSection() {
 
               </div>
 
-              {/* iOS Glass Button to Toggle Lead cards */}
+              {/* Rectangular Button to Toggle Lead cards */}
               <button
                 onClick={() => setShowMemberCards(!showMemberCards)}
-                className="px-4 py-2.5 rounded-xl ios-glass-btn inline-flex items-center gap-2 text-xs font-mono font-bold text-black dark:text-white cursor-pointer"
+                className="px-4 py-2.5 rounded-sm btn-minimal btn-white inline-flex items-center gap-2 text-xs font-mono font-bold text-black dark:text-white cursor-pointer"
               >
                 <span>{showMemberCards ? "Hide Chapter Leads" : "View Chapter Leads Profiles"}</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showMemberCards ? "rotate-180" : ""}`} />
@@ -93,9 +93,9 @@ export default function TeamSection() {
 
             </div>
 
-            {/* Right Photo (6 cols) - EXACT team photo from Figma */}
+            {/* Right Photo (6 cols) */}
             <div className="lg:col-span-6 flex flex-col items-center">
-              <div className="w-full relative rounded-2xl overflow-hidden border-3 border-black shadow-[6px_6px_0px_#000] group">
+              <div className="w-full relative rounded-sm overflow-hidden border-3 border-black shadow-[6px_6px_0px_#000] group">
                 <div className="relative aspect-[4/3] w-full bg-zinc-200">
                   <Image
                     src="/assets/team_photo.png"
@@ -115,7 +115,7 @@ export default function TeamSection() {
 
           </div>
 
-          {/* Interactive Core Leads Gallery when toggled */}
+          {/* Interactive Core Leads Gallery in rectangular cards */}
           {showMemberCards && (
             <div className="mt-8 pt-6 border-t-2 border-black dark:border-zinc-700 animate-fade-in">
               <h4 className="font-display-pixel text-lg font-bold text-black dark:text-white mb-4">
@@ -125,9 +125,9 @@ export default function TeamSection() {
                 {coreLeads.map((member) => (
                   <div
                     key={member.name}
-                    className="p-4 bg-white/70 dark:bg-zinc-800/80 backdrop-blur-md border-2 border-black rounded-2xl shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]"
+                    className="p-4 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]"
                   >
-                    <div className={`w-10 h-10 rounded-xl ios-glass-btn ${member.avatarGlass} flex items-center justify-center font-bold text-white mb-3 text-sm`}>
+                    <div className={`w-10 h-10 rounded-sm btn-minimal ${member.colorClass} flex items-center justify-center font-bold mb-3 text-sm`}>
                       {member.name.charAt(0)}
                     </div>
                     <div className="font-bold text-sm text-black dark:text-white">{member.name}</div>
