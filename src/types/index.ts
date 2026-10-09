@@ -1,16 +1,52 @@
+export type UserRole = "user" | "admin";
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  department?: string;
+  year?: string;
+  createdAt: string;
+}
+
+export interface AuthResponse {
+  success: boolean;
+  message: string;
+  token?: string;
+  user?: User;
+}
+
 export interface EventItem {
   id: string;
   title: string;
   subtitle?: string;
-  category: string;
-  date: string;
-  time: string;
-  location: string;
   description: string;
-  isUpcoming: boolean;
-  registrationOpen: boolean;
+  dateTime?: string;
+  date?: string;
+  time?: string;
+  venue?: string;
+  location?: string;
+  capacity: number;
   maxAttendees?: number;
+  category: string;
   registeredCount: number;
+  createdAt?: string;
+  isUpcoming?: boolean;
+  registrationOpen?: boolean;
+}
+
+export interface RegistrationRecord {
+  id: string;
+  ticketId: string;
+  eventId: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  department: string;
+  year: string;
+  domain: string;
+  createdAt: string;
 }
 
 export interface RegistrationRequest {
@@ -19,7 +55,6 @@ export interface RegistrationRequest {
   email: string;
   department: string;
   year: string;
-  studentId?: string;
   phone?: string;
   interestTracks?: string[];
 }
@@ -35,7 +70,6 @@ export interface FaqItem {
   id: string;
   question: string;
   answer: string;
-  category?: string;
 }
 
 export interface ContactMessage {
