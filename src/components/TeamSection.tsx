@@ -184,16 +184,21 @@ export default function TeamSection() {
                       <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-1">{member.role}</div>
                     </div>
 
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${member.name} LinkedIn Profile`}
-                      className="mt-4 w-full py-2 px-3 rounded-sm btn-minimal btn-blue text-white text-xs font-mono font-bold flex items-center justify-center gap-1.5 cursor-pointer"
-                    >
-                      <Linkedin className="w-3.5 h-3.5" />
-                      <span>View LinkedIn</span>
-                    </a>
+                    <div className="mt-4 pt-2.5 border-t border-zinc-100 dark:border-zinc-700/60 flex items-center justify-between">
+                      <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 font-semibold">
+                        LinkedIn
+                      </span>
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${member.name} LinkedIn Profile`}
+                        className="w-8 h-8 rounded-sm btn-minimal btn-blue flex items-center justify-center text-white cursor-pointer"
+                        title="View LinkedIn Profile"
+                      >
+                        <Linkedin className="w-4 h-4" />
+                      </a>
+                    </div>
                   </div>
                 ))}
               </div>
