@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowRight, Calendar, Clock, MapPin, Sparkles, Search, CheckCircle, Check, Tag } from "lucide-react";
+import { ArrowRight, Calendar, Clock, MapPin, Sparkles, Check, Tag } from "lucide-react";
 import { EventItem } from "@/types";
 import { useAuth } from "./AuthContext";
 
@@ -12,17 +12,6 @@ interface Props {
   triggerRefresh?: number;
 }
 
-const CATEGORY_TABS = [
-  "All",
-  "Web dev",
-  "MAC",
-  "design",
-  "marketing",
-  "management",
-  "socials",
-  "competetive programming",
-];
-
 export default function UpcomingEvent({
   onOpenRegisterForEvent,
   onOpenAuth,
@@ -32,18 +21,12 @@ export default function UpcomingEvent({
   const { user, token } = useAuth();
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
   const [userRegistrations, setUserRegistrations] = useState<string[]>([]);
 
   const loadEvents = async () => {
     setLoading(true);
     try {
-      const url = new URL("/api/events", window.location.origin);
-      if (searchQuery) url.searchParams.set("search", searchQuery);
-      if (selectedCategory && selectedCategory !== "All") url.searchParams.set("category", selectedCategory);
-
-      const res = await fetch(url.toString());
+      const res = await fetch("/api/events");
       const data = await res.json();
       if (res.ok && data.success) {
         setEvents(data.data || []);
@@ -71,7 +54,7 @@ export default function UpcomingEvent({
 
   useEffect(() => {
     loadEvents();
-  }, [searchQuery, selectedCategory, triggerRefresh]);
+  }, [triggerRefresh]);
 
   useEffect(() => {
     loadUserRegistrations();
@@ -116,11 +99,11 @@ export default function UpcomingEvent({
           </p>
         </div>
 
-        {/* 1. Flagship Dual Cards matching exact Figma layout */}
+        {/* Flagship Dual Cards matching exact Figma layout */}
         {flagship && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* Left Card: Orientation Dark Gradient Card (8 cols) */}
+            {/* Left Card: Orientation Dark Gradient Card (7 cols) */}
             <div className="lg:col-span-7 bg-gradient-to-b from-zinc-200 via-zinc-400 to-zinc-900 dark:from-zinc-800 dark:via-zinc-900 dark:to-black text-white p-6 sm:p-8 rounded-sm border-3 border-black dark:border-zinc-500 shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff] flex flex-col justify-between relative overflow-hidden group">
               <div className="flex items-center justify-between mb-6">
                 <span className="px-3 py-1 bg-white text-black border-2 border-black rounded-sm text-xs font-mono font-bold shadow-[2px_2px_0px_#000]">
@@ -221,127 +204,6 @@ export default function UpcomingEvent({
 
           </div>
         )}
-
-        {/* 2. Interactive Events Browser (Search, 7 Domain Filter Tabs) */}
-        <div className="pt-8 border-t-2 border-black dark:border-zinc-700 space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <h3 className="font-display-pixel text-xl sm:text-2xl font-bold text-black dark:text-white">
-                Discover All GDG Events
-              </h3>
-              <p className="font-mono text-xs text-zinc-500">
-                Filter by technical domain or search by topic & venue
-              </p>
-            </div>
-
-            {/* Search Input in rectangular format */}
-            <div className="relative w-full md:w-72">
-              <Search className="w-4 h-4 text-zinc-400 absolute left-3 top-3.5" />
-              <input
-                type="text"
-                placeholder="Search events, venues..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-white dark:bg-zinc-800 border-2 border-black dark:border-zinc-500 rounded-sm text-xs font-mono text-black dark:text-white placeholder:text-zinc-400 focus:outline-none shadow-[2px_2px_0px_#000]"
-              />
-            </div>
-          </div>
-
-          {/* Domain Filter Pills in rectangular format */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-            {CATEGORY_TABS.map((cat) => {
-              const isSelected = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1.5 rounded-sm text-xs font-bold font-mono whitespace-nowrap cursor-pointer btn-minimal ${
-                    isSelected
-                      ? "btn-blue text-white"
-                      : "btn-white text-zinc-700 dark:text-zinc-300"
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Events Catalog Grid (NO capacity bar or seat numbers) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map((event) => {
-              const isRegistered = userRegistrations.includes(event.id);
-
-              return (
-                <div
-                  key={event.id}
-                  className="bg-white dark:bg-zinc-900 border-2.5 border-black dark:border-zinc-500 rounded-sm p-5 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#fff] flex flex-col justify-between space-y-4 font-mono transition-transform hover:-translate-y-1"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="px-2.5 py-1 rounded-sm btn-minimal btn-blue text-white text-[10px] font-bold">
-                        {event.category}
-                      </span>
-                      <span className="text-[10px] text-zinc-500 dark:text-zinc-400 font-semibold">
-                        GDG RBU
-                      </span>
-                    </div>
-
-                    <h4 className="font-display-pixel text-base font-bold text-black dark:text-white line-clamp-2">
-                      {event.title}
-                    </h4>
-
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400 line-clamp-2 font-sans font-medium">
-                      {event.description}
-                    </p>
-
-                    <div className="space-y-1.5 text-xs text-zinc-600 dark:text-zinc-300 pt-1">
-                      <div className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-blue-500" />
-                        <span className="truncate">{event.dateTime}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-red-500" />
-                        <span className="truncate">{event.venue}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Actions in sleek rectangular format */}
-                  <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between gap-2">
-                    {isRegistered ? (
-                      <div className="flex items-center justify-between w-full">
-                        <span className="text-xs font-bold text-green-600 flex items-center gap-1">
-                          <CheckCircle className="w-4 h-4" /> Pass Claimed
-                        </span>
-                        <button
-                          onClick={() => handleUnregisterClick(event)}
-                          className="px-3 py-1.5 text-[11px] rounded-sm btn-minimal btn-red text-white font-bold cursor-pointer"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => handleRegisterClick(event)}
-                        className="w-full py-2.5 rounded-sm btn-minimal btn-dark text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer"
-                      >
-                        <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-                        <span>Register Now</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {events.length === 0 && !loading && (
-            <div className="py-12 text-center text-zinc-500 font-mono text-xs">
-              No events found matching your search.
-            </div>
-          )}
-        </div>
 
       </div>
     </section>
