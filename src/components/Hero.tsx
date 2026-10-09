@@ -46,16 +46,6 @@ export default function Hero({ onOpenRegister }: { onOpenRegister: () => void })
               EXPLORE EVENTS
             </a>
           </div>
-
-          {/* Track Pills in rectangular format */}
-          <div className="flex flex-wrap items-center gap-2 pt-2 text-xs font-mono font-semibold text-zinc-600 dark:text-zinc-400">
-            <span className="text-zinc-400 dark:text-zinc-500">Tracks:</span>
-            <span className="px-2.5 py-1 bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-400 rounded-sm text-[11px]">Web Dev</span>
-            <span className="px-2.5 py-1 bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300 border border-red-400 rounded-sm text-[11px]">MAC</span>
-            <span className="px-2.5 py-1 bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-400 rounded-sm text-[11px]">Design</span>
-            <span className="px-2.5 py-1 bg-green-100 dark:bg-green-950/60 text-green-800 dark:text-green-300 border border-green-400 rounded-sm text-[11px]">CP</span>
-          </div>
-
         </div>
 
         {/* Right Column: Retro Terminal Graphic */}
