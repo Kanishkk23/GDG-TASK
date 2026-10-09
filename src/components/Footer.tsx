@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { MapPin, Mail, Instagram, Linkedin, Twitter, Github, Heart } from "lucide-react";
+import { MapPin, Mail, Instagram, Linkedin, Twitter, Heart } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -107,17 +107,6 @@ export default function Footer() {
                   className="w-10 h-10 rounded-sm btn-minimal btn-green flex items-center justify-center cursor-pointer"
                 >
                   <Twitter className="w-5 h-5 text-white" />
-                </a>
-
-                {/* GitHub */}
-                <a
-                  href="https://github.com/gdg-rbu"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub"
-                  className="w-10 h-10 rounded-sm btn-minimal btn-dark flex items-center justify-center cursor-pointer"
-                >
-                  <Github className="w-5 h-5 text-white" />
                 </a>
 
               </div>
