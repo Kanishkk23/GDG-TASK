@@ -1,145 +1,98 @@
-# Google Developer Groups (GDG) - RBU Student Chapter Website
+# Google Developer Groups (GDG) - RBU Chapter Platform
 
-An exact, pixel-perfect, and fully functional full-stack web implementation of the official **GDG Student Chapter Figma Design** for **Ramdeobaba University (RBU)**.
+An exact, pixel-perfect, and fully functional full-stack web implementation of the official **GDG Student Chapter** for **Ramdeobaba University (RBU)** matching the Figma neo-brutalist design with iOS 27 liquid glass styling and complete backend event management APIs.
 
-Built with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, and integrated with full-stack backend API routes for event management, registration pass generation, and community contact.
-
----
-
-## Key Features
-
-### 1. Neo-Brutalist & Figma Pixel-Fidelity Design
-- **Exact Visual Conversion**: Faithfully converts every section from the [Figma Design](https://www.figma.com/design/a8CZ4WnoYXeXN6r9RxFzhr/GDG-Frotend-Task):
-  - **Retro-Tech Display Typography**: Blocky, vintage-tech headlines paired with clean sans-serif body copy.
-  - **Signature Google Brand Palette**: Blue (`#4285F4`), Red (`#EA4335`), Yellow (`#FBBC04`), and Green (`#34A853`).
-  - **Neo-Brutalist Cards & Shadows**: High-contrast black borders, crisp offset box shadows (`4px 4px 0px #000`), and tactile click animations.
-  - **Geometric Google Developer Pattern**: Authentic geometric shape bottom banner matching GDG identity.
-  - **Real Chapter Photography**: Extracted and framed team photo directly from the Figma canvas.
-
-### 2. Dark & Light Mode System
-- High-contrast **Dark Mode** toggle with automatic system preference detection.
-- Zero-flicker state persistence in `localStorage`.
-- Custom neo-brutalist styling tuned for dark aesthetics with elevated borders and neon accents.
-
-### 3. Fully Responsive (Mobile, Tablet, Desktop)
-- Smooth navigation across all screen sizes (mobile <640px, tablet 768px, desktop 1024px+).
-- Interactive mobile hamburger navigation drawer with color-coded category pills.
-- Adaptive grid layouts for event cards and FAQs.
-
-### 4. Full-Stack Backend API Routes
-- **`/api/events` (GET)**: Fetches upcoming and featured GDG events with attendee caps and metadata.
-- **`/api/register` (POST / GET)**: 
-  - Validates student details (Name, College Email, Department, Year, Interest Tracks).
-  - Prevents duplicate signups.
-  - Generates a unique, verifiable digital ticket ID (e.g. `GDG-RBU-XXXXX-1234`).
-  - Returns digital ticket confirmation instantly to the frontend modal.
-- **`/api/faqs` (GET)**: Dynamically serves chapter frequently asked questions.
-- **`/api/contact` (POST)**: Community query submission endpoint.
-
-### 5. Interactive Event Pass Registration Modal
-- Click **"Register Now"** on the yellow event card or **"Join Us"** in the Hero.
-- Interactive modal with real-time validation, multi-track selection, and instant digital pass display.
+Built with **Next.js 14+ (App Router)**, **TypeScript**, and **Tailwind CSS**.
 
 ---
 
-## Tech Stack
+## Features Overview
 
-- **Framework**: Next.js 14+ (App Router)
-- **Language**: TypeScript (Strict mode enabled)
-- **Styling**: Tailwind CSS with custom Neo-brutalist configuration
-- **Icons**: Lucide React
-- **Fonts**: Google Fonts (`Silkscreen`, `Space Grotesk`, `Inter`)
-- **Deployment Targets**: Vercel (recommended), Netlify, Render
-
----
-
-## Repository Structure
-
-```
-gdg-rbu-website/
-├── public/
-│   └── assets/
-│       ├── gdg-logo.svg              # Vector Google Developer Groups bracket logo
-│       ├── google-shapes-pattern.svg # Google geometric pattern footer banner
-│       └── team_photo.png            # GDG RBU student chapter photograph
-├── src/
-│   ├── app/
-│   │   ├── api/
-│   │   │   ├── contact/route.ts      # Contact query endpoint
-│   │   │   ├── events/route.ts       # Events catalog endpoint
-│   │   │   ├── faqs/route.ts         # FAQs endpoint
-│   │   │   └── register/route.ts     # Ticket generation & registration endpoint
-│   │   ├── globals.css               # Tailwind & neo-brutalist design tokens
-│   │   ├── layout.tsx                # App root layout, meta tags & fonts
-│   │   └── page.tsx                  # Landing page composing all Figma sections
-│   ├── components/
-│   │   ├── FaqSection.tsx            # Accordion component with 5 Figma questions
-│   │   ├── Footer.tsx                # Chapter cards, social links & geometric banner
-│   │   ├── Hero.tsx                  # Hero section with interactive terminal CLI
-│   │   ├── Navbar.tsx                # Multi-color pill badges & responsive drawer
-│   │   ├── RegistrationModal.tsx     # Full modal form with instant ticket generation
-│   │   ├── TeamSection.tsx           # Mission callouts, framed photo & lead cards
-│   │   ├── ThemeToggle.tsx           # Dark/Light mode toggle button
-│   │   └── UpcomingEvent.tsx         # Dual brutalist event cards (Orientation & Yellow)
-│   ├── lib/
-│   │   └── store.ts                  # In-memory database store for events & passes
-│   └── types/
-│       └── index.ts                  # TypeScript interfaces for API & UI models
-├── vercel.json                       # Deployment configuration for Vercel
-├── tailwind.config.ts                # Custom colors, fonts, shadows
-├── tsconfig.json
-├── package.json
-└── README.md
-```
+### 1. Frontend & Design Fidelity
+- **Exact Figma Pixel Conversion**: Converts every section from the GDG Figma Design.
+- **Retro-Tech Display Typography**: Blocky vintage-tech headlines (GOOGLE DEVELOPER GROUPS, RBU, Upcoming Event, FAQs) paired with crisp sans-serif copy.
+- **Signature Google Brand Palette**: Blue (#4285F4), Red (#EA4335), Yellow (#FBBC04), and Green (#34A853).
+- **iOS 27 Liquid Glass Buttons**: Frosted translucent blur (backdrop-filter: blur(20px)), specular upper-rim reflections, semi-translucent refraction borders, and tactile spring hover/press physics.
+- **7 Chapter Domains**: Custom interactive dropdown selector for:
+  Web dev • MAC • design • marketing • management • socials • competetive programming.
+- **Dark & Light Mode**: Complete theme switcher with zero-flash persistence in localStorage.
 
 ---
 
-## Getting Started Locally
+### 2. Backend Event Management & Registration System
 
-### Prerequisites
-- Node.js (v18.0 or newer)
-- npm or yarn or pnpm
+#### Authentication & Role-Based Access Control (JWT):
+- User registration and login with secure HMAC-SHA256 JWT tokens.
+- **Pre-Seeded Demo Accounts**:
+  - Admin: admin@rknec.edu / admin123 (Manages events, creates/edits/deletes, views attendee rosters).
+  - Student User: student@rknec.edu / student123 (Discovers events, registers, views passes, cancels reservations).
+  - Or sign up as a new user with 1 click in the auth modal!
 
-### 1. Installation
-```bash
-git clone <your-repo-url>
+#### Full Event CRUD:
+- Admins can **Create**, **Update**, and **Delete** events with:
+  - Title, Description, Date/Time, Venue, Capacity, Category.
+- Non-admins are blocked with 403 Forbidden.
+
+#### Capacity & Duplicate Registration Enforcement:
+- **Duplicate Prevention**: If an authenticated user attempts to register for an event they already joined, the system returns 409 Conflict: Already registered for this event!
+- **Strict Capacity Enforcement**: If registeredCount >= capacity, registrations are blocked with 400 Bad Request: Event is at full capacity.
+- **Unregister & Spot Release**: Users can cancel/unregister from any event, atomically decrementing registeredCount and releasing the seat for other students.
+- **Cascade Deletion**: When an admin deletes an event, associated registration records are cleaned up safely.
+
+---
+
+## Backend API Reference
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| POST | /api/auth/register | Public | Register new user account & receive JWT token |
+| POST | /api/auth/login | Public | Authenticate user/admin credentials & receive JWT token |
+| GET | /api/auth/me | Authenticated | Retrieve current authenticated user profile |
+| POST | /api/auth/me | Authenticated | Logout and clear cookie |
+| GET | /api/events | Public | List all events (supports ?search=... and ?category=...) |
+| POST | /api/events | Admin Only | Create new event (Title, Description, Date/Time, Venue, Capacity, Category) |
+| GET | /api/events/[id] | Public | Retrieve single event details |
+| PUT | /api/events/[id] | Admin Only | Update event details & seat capacity |
+| DELETE | /api/events/[id] | Admin Only | Delete event and cascade cancel registrations |
+| POST | /api/events/[id]/register | Authenticated | Register for event (prevents duplicates & enforces capacity) |
+| POST | /api/events/[id]/unregister | Authenticated | Cancel registration and release reserved seat |
+| GET | /api/events/[id]/attendees | Admin Only | View list of registered attendees for an event |
+| GET | /api/users/registrations | Authenticated | View all events the current user is registered for with tickets |
+| POST | /api/contact | Public | Submit inquiries to chapter leads |
+| GET | /api/faqs | Public | Dynamic chapter FAQs |
+
+---
+
+## React Interface Modules
+
+1. **Auth Modal (AuthModal.tsx)**:
+   - Tabbed Sign In / Create Account with 1-Click Demo Login buttons for Admin and Student.
+2. **Navbar (Navbar.tsx)**:
+   - User profile badge with role tag (ADMIN or USER).
+   - Admin Console button for admins.
+   - My Passes button for students.
+   - One-click Sign In / Logout.
+3. **Events Explorer (UpcomingEvent.tsx)**:
+   - Live search input & 7 domain filter pills.
+   - Real-time capacity indicator bar (X / Y spots filled).
+   - Visual FULL / SOLD OUT tag when capacity is reached.
+   - Contextual buttons: Register Now, Pass Claimed, Cancel, Capacity Full.
+4. **My Registrations Dashboard (MyRegistrationsModal.tsx)**:
+   - Student dashboard showing active digital pass tickets (e.g. GDG-RBU-XXXXX-1234), event date, venue, and a one-click Cancel Registration button.
+5. **Admin Console (AdminEventModal.tsx)**:
+   - Create New Event dialog with validation.
+   - Edit Event form (modify title, venue, capacity, category).
+   - Delete Event with confirmation.
+   - Live Attendees Roster showing attendee names, college emails, departments, and ticket IDs.
+
+---
+
+## Running Locally
+
+`ash
 cd gdg-rbu-website
 npm install
-```
-
-### 2. Run in Development Mode
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### 3. Production Build
-```bash
 npm run build
 npm start
-```
-
----
-
-## Deployment Guide
-
-### Deploying to Vercel (Recommended)
-1. Push your repository to GitHub.
-2. Sign in to [Vercel](https://vercel.com) and click **"New Project"**.
-3. Import your GitHub repository `gdg-rbu-website`.
-4. Vercel automatically detects Next.js:
-   - **Framework Preset**: Next.js
-   - **Build Command**: `next build`
-   - **Output Directory**: `.next`
-5. Click **Deploy**. Your site will be live with serverless API routes within 1 minute!
-
-### Deploying to Netlify
-1. Connect your repository to [Netlify](https://netlify.com).
-2. Set build command to `npm run build`.
-3. Set publish directory to `.next`.
-
-### Deploying to Render
-1. Create a new **Web Service** on [Render](https://render.com).
-2. Connect your repo and set environment to `Node`.
-3. Set build command: `npm install && npm run build`.
-4. Set start command: `npm start`.
+`
+Open http://localhost:3000 in your browser.
