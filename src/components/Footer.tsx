@@ -78,7 +78,7 @@ export default function Footer() {
                 
                 {/* Instagram */}
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/gdg_rbu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
@@ -89,7 +89,7 @@ export default function Footer() {
 
                 {/* LinkedIn */}
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/company/gdg-rbu/home/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
@@ -100,7 +100,7 @@ export default function Footer() {
 
                 {/* Twitter / X */}
                 <a
-                  href="https://twitter.com"
+                  href="https://x.com/gdsc_rcoem"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Twitter X"
@@ -111,7 +111,7 @@ export default function Footer() {
 
                 {/* GitHub */}
                 <a
-                  href="https://github.com"
+                  href="https://github.com/gdg-rbu"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"

@@ -2,26 +2,70 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Wrench, Network, Award, ChevronDown } from "lucide-react";
+import { Wrench, Network, Award, ChevronDown, Linkedin } from "lucide-react";
 
 interface TeamMember {
   name: string;
   role: string;
   domain: string;
+  linkedin: string;
   colorClass: string;
 }
 
 const coreLeads: TeamMember[] = [
-  { name: "Aarav Sharma", role: "GDG Campus Lead", domain: "Lead Organizer", colorClass: "btn-blue" },
-  { name: "Priya Patel", role: "Web Dev Lead", domain: "Full Stack & Next.js", colorClass: "btn-red" },
-  { name: "Rohan Deshmukh", role: "MAC Lead", domain: "Mobile, Android & Apple", colorClass: "btn-yellow" },
-  { name: "Sneha Kulkarni", role: "Design Lead", domain: "UI/UX & Branding", colorClass: "btn-purple" },
-  { name: "Aditya Varma", role: "Competitive Programming Lead", domain: "Algorithms & Contests", colorClass: "btn-green" },
-  { name: "Tanvi Joshi", role: "Marketing & Socials Lead", domain: "Outreach & Media", colorClass: "btn-cyan" },
+  {
+    name: "Rohit Agrawal",
+    role: "Web Lead",
+    domain: "Web dev",
+    linkedin: "https://www.linkedin.com/in/rohit-agrawal-5444ra/",
+    colorClass: "btn-blue",
+  },
+  {
+    name: "Vivian Demello",
+    role: "MAC Lead",
+    domain: "MAC (Mobile, Android & Apple)",
+    linkedin: "https://www.linkedin.com/in/viviandemello/",
+    colorClass: "btn-red",
+  },
+  {
+    name: "Gayatri Donode",
+    role: "Design Lead",
+    domain: "design",
+    linkedin: "https://www.linkedin.com/in/gayatridonode/",
+    colorClass: "btn-purple",
+  },
+  {
+    name: "Jagravi Bisen",
+    role: "Marketing Lead",
+    domain: "marketing",
+    linkedin: "https://www.linkedin.com/in/jagravibisen/",
+    colorClass: "btn-yellow",
+  },
+  {
+    name: "Saarth Meshram",
+    role: "Management Lead",
+    domain: "management",
+    linkedin: "https://www.linkedin.com/in/saarthm/",
+    colorClass: "btn-cyan",
+  },
+  {
+    name: "Arshpreet Puri",
+    role: "Socials Lead",
+    domain: "socials",
+    linkedin: "https://www.linkedin.com/in/arshpreet-puri-41b9702a8/",
+    colorClass: "btn-red",
+  },
+  {
+    name: "Adarsh Jha",
+    role: "Competitive Programming Lead",
+    domain: "competetive programming",
+    linkedin: "https://www.linkedin.com/in/adarsh-jha-3a814a321/",
+    colorClass: "btn-green",
+  },
 ];
 
 export default function TeamSection() {
-  const [showMemberCards, setShowMemberCards] = useState(false);
+  const [showMemberCards, setShowMemberCards] = useState(true);
 
   return (
     <section id="team" className="w-full py-12">
@@ -125,14 +169,32 @@ export default function TeamSection() {
                 {coreLeads.map((member) => (
                   <div
                     key={member.name}
-                    className="p-4 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]"
+                    className="p-4 bg-white dark:bg-zinc-800 border-2 border-black dark:border-zinc-600 rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff] flex flex-col justify-between transition-transform hover:-translate-y-1"
                   >
-                    <div className={`w-10 h-10 rounded-sm btn-minimal ${member.colorClass} flex items-center justify-center font-bold mb-3 text-sm`}>
-                      {member.name.charAt(0)}
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className={`w-10 h-10 rounded-sm btn-minimal ${member.colorClass} flex items-center justify-center font-bold text-sm shadow-sm`}>
+                          {member.name.charAt(0)}
+                        </div>
+                        <span className="text-[10px] font-mono px-2 py-0.5 border border-black dark:border-zinc-500 rounded-sm bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold uppercase">
+                          {member.role}
+                        </span>
+                      </div>
+                      <div className="font-bold text-base text-black dark:text-white leading-snug">{member.name}</div>
+                      <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-0.5">{member.role}</div>
+                      <div className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 mt-1">{member.domain}</div>
                     </div>
-                    <div className="font-bold text-sm text-black dark:text-white">{member.name}</div>
-                    <div className="text-xs font-semibold text-blue-600 dark:text-blue-400">{member.role}</div>
-                    <div className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 mt-1">{member.domain}</div>
+
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${member.name} LinkedIn Profile`}
+                      className="mt-4 w-full py-2 px-3 rounded-sm btn-minimal btn-blue text-white text-xs font-mono font-bold flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <Linkedin className="w-3.5 h-3.5" />
+                      <span>View LinkedIn</span>
+                    </a>
                   </div>
                 ))}
               </div>
