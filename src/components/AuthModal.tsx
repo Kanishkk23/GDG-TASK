@@ -12,7 +12,7 @@ interface Props {
 
 export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Props) {
   const [tab, setTab] = useState<"login" | "register">(defaultTab);
-  const { login, registerUser, quickLogin } = useAuth();
+  const { login, registerUser } = useAuth();
 
   // Login form state
   const [email, setEmail] = useState("");
@@ -73,13 +73,6 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
     }
   };
 
-  const handleQuickDemo = async (role: "admin" | "student") => {
-    setLoading(true);
-    await quickLogin(role);
-    setLoading(false);
-    onClose();
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
       <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-400 rounded-sm w-full max-w-md shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden">
@@ -99,31 +92,6 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
           >
             <X className="w-4 h-4" />
           </button>
-        </div>
-
-        {/* 1-Click Demo Buttons in rectangular format */}
-        <div className="p-4 bg-zinc-50 dark:bg-zinc-800/60 border-b border-zinc-200 dark:border-zinc-700">
-          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">
-            ⚡ Quick 1-Click Demo Login
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => handleQuickDemo("admin")}
-              className="py-2 px-3 rounded-sm btn-minimal btn-yellow text-black font-mono font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <Shield className="w-3.5 h-3.5" />
-              <span>Login as Admin</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickDemo("student")}
-              className="py-2 px-3 rounded-sm btn-minimal btn-green text-white font-mono font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <UserIcon className="w-3.5 h-3.5" />
-              <span>Login as Student</span>
-            </button>
-          </div>
         </div>
 
         {/* Tab Switcher */}
