@@ -15,7 +15,7 @@ interface NavBadge {
 
 const navBadges: NavBadge[] = [
   { label: "Home", href: "#hero", colorClass: "btn-blue" },
-  { label: "About", href: "#team", colorClass: "btn-red" },
+  { label: "About", href: "#about", colorClass: "btn-red" },
   { label: "Events", href: "#events", colorClass: "btn-yellow" },
   { label: "Team", href: "#team", colorClass: "btn-green" },
   { label: "FAQs", href: "#faqs", colorClass: "btn-purple" },

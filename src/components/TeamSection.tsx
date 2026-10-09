@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Wrench, Network, Award, ChevronDown, Linkedin } from "lucide-react";
+import { Wrench, Network, Award, Linkedin, Users } from "lucide-react";
 
 interface TeamMember {
   name: string;
@@ -11,6 +11,17 @@ interface TeamMember {
   linkedin: string;
   colorClass: string;
 }
+
+const DOMAIN_FILTERS = [
+  "All",
+  "Web dev",
+  "MAC",
+  "Design",
+  "Marketing",
+  "Management",
+  "Socials",
+  "CP",
+];
 
 const coreLeads: TeamMember[] = [
   {
@@ -30,55 +41,65 @@ const coreLeads: TeamMember[] = [
   {
     name: "Gayatri Donode",
     role: "Design Lead",
-    domain: "design",
+    domain: "Design",
     linkedin: "https://www.linkedin.com/in/gayatridonode/",
     colorClass: "btn-purple",
   },
   {
     name: "Jagravi Bisen",
     role: "Marketing Lead",
-    domain: "marketing",
+    domain: "Marketing",
     linkedin: "https://www.linkedin.com/in/jagravibisen/",
     colorClass: "btn-yellow",
   },
   {
     name: "Saarth Meshram",
     role: "Management Lead",
-    domain: "management",
+    domain: "Management",
     linkedin: "https://www.linkedin.com/in/saarthm/",
     colorClass: "btn-cyan",
   },
   {
     name: "Arshpreet Puri",
     role: "Socials Lead",
-    domain: "socials",
+    domain: "Socials",
     linkedin: "https://www.linkedin.com/in/arshpreet-puri-41b9702a8/",
     colorClass: "btn-red",
   },
   {
     name: "Adarsh Jha",
     role: "Competitive Programming Lead",
-    domain: "competetive programming",
+    domain: "CP",
     linkedin: "https://www.linkedin.com/in/adarsh-jha-3a814a321/",
     colorClass: "btn-green",
   },
 ];
 
 export default function TeamSection() {
-  const [showMemberCards, setShowMemberCards] = useState(true);
+  const [selectedDomain, setSelectedDomain] = useState("All");
+
+  const filteredLeads =
+    selectedDomain === "All"
+      ? coreLeads
+      : coreLeads.filter(
+          (m) =>
+            m.domain.toLowerCase() === selectedDomain.toLowerCase() ||
+            m.role.toLowerCase().includes(selectedDomain.toLowerCase())
+        );
 
   return (
-    <section id="team" className="w-full py-12">
-      <div className="max-w-6xl mx-auto px-4">
+    <section className="w-full py-12 space-y-12">
+      <div className="max-w-6xl mx-auto px-4 space-y-12">
         
-        {/* Main brutalist card container */}
-        <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-500 rounded-sm p-6 sm:p-10 shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff]">
-          
+        {/* 1. About / Chapter Overview (Target for #about) */}
+        <div
+          id="about"
+          className="scroll-mt-24 bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-500 rounded-sm p-6 sm:p-10 shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff]"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            {/* Left Content (7 cols) */}
+            {/* Left Content (6 cols) */}
             <div className="lg:col-span-6 space-y-6">
-              
               <h2 className="font-display-pixel text-2xl sm:text-3xl md:text-4xl font-extrabold text-black dark:text-white leading-tight">
                 Meet the Google Developer Group Team
               </h2>
@@ -89,8 +110,6 @@ export default function TeamSection() {
 
               {/* Feature Cards matching Figma */}
               <div className="space-y-4 pt-2">
-                
-                {/* Feature 1 */}
                 <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
                   <div className="flex items-start gap-3">
                     <div className="p-2.5 rounded-sm btn-minimal btn-blue text-white">
@@ -107,7 +126,6 @@ export default function TeamSection() {
                   </div>
                 </div>
 
-                {/* Feature 2 */}
                 <div className="p-4 bg-zinc-50 dark:bg-zinc-800/80 border-2 border-black dark:border-zinc-700 rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
                   <div className="flex items-start gap-3">
                     <div className="p-2.5 rounded-sm btn-minimal btn-green text-white">
@@ -123,18 +141,7 @@ export default function TeamSection() {
                     </div>
                   </div>
                 </div>
-
               </div>
-
-              {/* Rectangular Button to Toggle Lead cards */}
-              <button
-                onClick={() => setShowMemberCards(!showMemberCards)}
-                className="px-4 py-2.5 rounded-sm btn-minimal btn-white inline-flex items-center gap-2 text-xs font-mono font-bold text-black dark:text-white cursor-pointer"
-              >
-                <span>{showMemberCards ? "Hide Chapter Leads" : "View Chapter Leads Profiles"}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showMemberCards ? "rotate-180" : ""}`} />
-              </button>
-
             </div>
 
             {/* Right Photo (6 cols) */}
@@ -158,52 +165,87 @@ export default function TeamSection() {
             </div>
 
           </div>
+        </div>
 
-          {/* Interactive Core Leads Gallery in rectangular cards */}
-          {showMemberCards && (
-            <div className="mt-8 pt-6 border-t-2 border-black dark:border-zinc-700 animate-fade-in">
-              <h4 className="font-display-pixel text-lg font-bold text-black dark:text-white mb-4">
-                Chapter Core Leads & Domains
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {coreLeads.map((member) => (
-                  <div
-                    key={member.name}
-                    className="p-4 bg-white dark:bg-zinc-800 border-2 border-black dark:border-zinc-600 rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff] flex flex-col justify-between transition-transform hover:-translate-y-1"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <div className={`w-10 h-10 rounded-sm btn-minimal ${member.colorClass} flex items-center justify-center font-bold text-sm shadow-sm`}>
-                          {member.name.charAt(0)}
-                        </div>
-                        <span className="text-[10px] font-mono px-2 py-0.5 border border-black dark:border-zinc-500 rounded-sm bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold uppercase">
-                          {member.domain}
-                        </span>
-                      </div>
-                      <div className="font-bold text-base text-black dark:text-white leading-snug">{member.name}</div>
-                      <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-1">{member.role}</div>
-                    </div>
-
-                    <div className="mt-4 pt-2.5 border-t border-zinc-100 dark:border-zinc-700/60 flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 font-semibold">
-                        LinkedIn
-                      </span>
-                      <a
-                        href={member.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${member.name} LinkedIn Profile`}
-                        className="w-8 h-8 rounded-sm btn-minimal btn-blue flex items-center justify-center text-white cursor-pointer"
-                        title="View LinkedIn Profile"
-                      >
-                        <Linkedin className="w-4 h-4" />
-                      </a>
-                    </div>
-                  </div>
-                ))}
+        {/* 2. Chapter Core Leads & Domains Section (Target for #team) */}
+        <div
+          id="team"
+          className="scroll-mt-24 bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-500 rounded-sm p-6 sm:p-10 shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff] space-y-6"
+        >
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-black dark:border-zinc-700 pb-5">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#34A853] text-white border-2 border-black rounded-sm text-xs font-mono font-bold shadow-[2px_2px_0px_#000] mb-2">
+                <Users className="w-3.5 h-3.5" />
+                <span>DOMAIN LEADS</span>
               </div>
+              <h3 className="font-display-pixel text-xl sm:text-2xl md:text-3xl font-extrabold text-black dark:text-white">
+                Chapter Core Leads & Domains
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 font-mono mt-1">
+                Meet our 7 technical domain leads and connect with them directly on LinkedIn
+              </p>
             </div>
-          )}
+
+            {/* Quick Domain Filter Tabs in sleek rectangular format */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {DOMAIN_FILTERS.map((domain) => {
+                const isActive = selectedDomain === domain;
+                return (
+                  <button
+                    key={domain}
+                    type="button"
+                    onClick={() => setSelectedDomain(domain)}
+                    className={`px-3 py-1.5 rounded-sm text-xs font-bold font-mono btn-minimal cursor-pointer transition-all ${
+                      isActive
+                        ? "btn-blue text-white"
+                        : "btn-white text-zinc-700 dark:text-zinc-300"
+                    }`}
+                  >
+                    {domain}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Leads Grid - Permanently visible, displaying domain and socials */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-2">
+            {filteredLeads.map((member) => (
+              <div
+                key={member.name}
+                className="p-4 bg-white dark:bg-zinc-800 border-2 border-black dark:border-zinc-600 rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff] flex flex-col justify-between transition-transform hover:-translate-y-1"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className={`w-10 h-10 rounded-sm btn-minimal ${member.colorClass} flex items-center justify-center font-bold text-sm shadow-sm`}>
+                      {member.name.charAt(0)}
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 border border-black dark:border-zinc-500 rounded-sm bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold uppercase">
+                      {member.domain}
+                    </span>
+                  </div>
+                  <div className="font-bold text-base text-black dark:text-white leading-snug">{member.name}</div>
+                  <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-1">{member.role}</div>
+                </div>
+
+                <div className="mt-4 pt-2.5 border-t border-zinc-100 dark:border-zinc-700/60 flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 font-semibold">
+                    LinkedIn
+                  </span>
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${member.name} LinkedIn Profile`}
+                    className="w-8 h-8 rounded-sm btn-minimal btn-blue flex items-center justify-center text-white cursor-pointer"
+                    title="View LinkedIn Profile"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
 
         </div>
 
