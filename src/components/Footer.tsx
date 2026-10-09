@@ -54,7 +54,7 @@ export default function Footer() {
               {/* Email Card (Yellow) */}
               <a
                 href="mailto:gdsc@rknec.edu"
-                className="p-4 rounded-sm btn-minimal btn-yellow text-black flex items-center gap-3 block"
+                className="w-full p-4 rounded-sm btn-minimal btn-yellow text-black flex items-center !justify-start gap-3 cursor-pointer"
               >
                 <div className="p-2 bg-white text-black border border-black rounded-sm shrink-0">
                   <Mail className="w-4 h-4" />
