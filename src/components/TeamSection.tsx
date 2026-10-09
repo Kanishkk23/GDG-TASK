@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { Wrench, Network, Award, Linkedin, Users } from "lucide-react";
 
@@ -11,17 +10,6 @@ interface TeamMember {
   linkedin: string;
   colorClass: string;
 }
-
-const DOMAIN_FILTERS = [
-  "All",
-  "Web dev",
-  "MAC",
-  "Design",
-  "Marketing",
-  "Management",
-  "Socials",
-  "CP",
-];
 
 const coreLeads: TeamMember[] = [
   {
@@ -76,17 +64,6 @@ const coreLeads: TeamMember[] = [
 ];
 
 export default function TeamSection() {
-  const [selectedDomain, setSelectedDomain] = useState("All");
-
-  const filteredLeads =
-    selectedDomain === "All"
-      ? coreLeads
-      : coreLeads.filter(
-          (m) =>
-            m.domain.toLowerCase() === selectedDomain.toLowerCase() ||
-            m.role.toLowerCase().includes(selectedDomain.toLowerCase())
-        );
-
   return (
     <section className="w-full py-12 space-y-12">
       <div className="max-w-6xl mx-auto px-4 space-y-12">
@@ -172,45 +149,19 @@ export default function TeamSection() {
           id="team"
           className="scroll-mt-24 bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-500 rounded-sm p-6 sm:p-10 shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff] space-y-6"
         >
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-black dark:border-zinc-700 pb-5">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#34A853] text-white border-2 border-black rounded-sm text-xs font-mono font-bold shadow-[2px_2px_0px_#000] mb-2">
-                <Users className="w-3.5 h-3.5" />
-                <span>DOMAIN LEADS</span>
-              </div>
-              <h3 className="font-display-pixel text-xl sm:text-2xl md:text-3xl font-extrabold text-black dark:text-white">
-                Chapter Core Leads & Domains
-              </h3>
-              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 font-mono mt-1">
-                Meet our 7 technical domain leads and connect with them directly on LinkedIn
-              </p>
+          <div className="border-b-2 border-black dark:border-zinc-700 pb-4">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#34A853] text-white border-2 border-black rounded-sm text-xs font-mono font-bold shadow-[2px_2px_0px_#000] mb-2">
+              <Users className="w-3.5 h-3.5" />
+              <span>DOMAIN LEADS</span>
             </div>
-
-            {/* Quick Domain Filter Tabs in sleek rectangular format */}
-            <div className="flex items-center gap-1.5 flex-wrap">
-              {DOMAIN_FILTERS.map((domain) => {
-                const isActive = selectedDomain === domain;
-                return (
-                  <button
-                    key={domain}
-                    type="button"
-                    onClick={() => setSelectedDomain(domain)}
-                    className={`px-3 py-1.5 rounded-sm text-xs font-bold font-mono btn-minimal cursor-pointer transition-all ${
-                      isActive
-                        ? "btn-blue text-white"
-                        : "btn-white text-zinc-700 dark:text-zinc-300"
-                    }`}
-                  >
-                    {domain}
-                  </button>
-                );
-              })}
-            </div>
+            <h3 className="font-display-pixel text-xl sm:text-2xl md:text-3xl font-extrabold text-black dark:text-white">
+              Chapter Core Leads & Domains
+            </h3>
           </div>
 
-          {/* Leads Grid - Permanently visible, displaying domain and socials */}
+          {/* Leads Grid - All 7 domain leads with clean compact LinkedIn buttons */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-2">
-            {filteredLeads.map((member) => (
+            {coreLeads.map((member) => (
               <div
                 key={member.name}
                 className="p-4 bg-white dark:bg-zinc-800 border-2 border-black dark:border-zinc-600 rounded-sm shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff] flex flex-col justify-between transition-transform hover:-translate-y-1"
