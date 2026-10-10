@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eventsDb, registrationsDb } from "@/lib/db";
+import { eventsDb, registrationsDb, syncDbFromDisk, saveDb } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
@@ -15,6 +15,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     return NextResponse.json({ success: false, message: "Invalid session." }, { status: 401 });
   }
 
+  syncDbFromDisk();
   const regIndex = registrationsDb.findIndex(
     (r) => r.eventId === params.id && r.userId === payload.userId
   );
@@ -32,6 +33,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     event.registeredCount -= 1;
   }
 
+  saveDb();
   return NextResponse.json({
     success: true,
     message: "Registration cancelled successfully. Your spot has been released.",

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "@/lib/auth";
-import { usersDb } from "@/lib/db";
+import { usersDb, syncDbFromDisk } from "@/lib/db";
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
@@ -21,6 +21,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  syncDbFromDisk();
   const user = usersDb.find((u) => u.id === payload.userId);
   if (!user) {
     return NextResponse.json(

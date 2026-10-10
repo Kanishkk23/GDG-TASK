@@ -264,6 +264,50 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
     }
   };
 
+  const handleRemoveAdmin = async (adm: any) => {
+    const isPrimary = adm.email.toLowerCase() === "k3kriplani@gmail.com";
+    if (isPrimary) {
+      alert("The primary Chapter Lead (k3kriplani@gmail.com) cannot be removed.");
+      return;
+    }
+    if (user?.email && adm.email.toLowerCase() === user.email.toLowerCase()) {
+      alert("You cannot remove your own admin privileges while logged in.");
+      return;
+    }
+
+    const confirmMsg = confirm(
+      `Are you sure you want to remove admin privileges from "${adm.name}" (${adm.email})?\n\nThis will revoke administrator access immediately.`
+    );
+    if (!confirmMsg) return;
+
+    setActionLoading(true);
+    setErrorMsg(null);
+    setMessage(null);
+
+    try {
+      const res = await fetch("/api/admin/users", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ email: adm.email, deleteAccount: true }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setMessage(data.message || `Admin privileges successfully removed for "${adm.email}".`);
+        await fetchAdmins();
+      } else {
+        setErrorMsg(data.message || "Failed to remove admin.");
+      }
+    } catch {
+      setErrorMsg("Network error occurred.");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
       <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-400 rounded-sm w-full max-w-4xl shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden flex flex-col max-h-[90vh]">
@@ -691,30 +735,60 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                 </div>
 
                 <div className="space-y-2 max-h-72 overflow-y-auto">
-                  {adminsList.map((adm) => (
-                    <div
-                      key={adm.id}
-                      className="p-3.5 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm shadow-[2px_2px_0px_#000] flex items-center justify-between font-mono text-xs"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-sm btn-minimal btn-yellow text-black flex items-center justify-center font-bold">
-                          <Shield className="w-4 h-4" />
+                  {adminsList.map((adm) => {
+                    const isPrimary = adm.email?.toLowerCase() === "k3kriplani@gmail.com";
+                    const isSelf = user?.email && adm.email?.toLowerCase() === user.email.toLowerCase();
+
+                    return (
+                      <div
+                        key={adm.id}
+                        className="p-3.5 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm shadow-[2px_2px_0px_#000] flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-sm btn-minimal btn-yellow text-black flex items-center justify-center font-bold shrink-0">
+                            <Shield className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="font-bold text-black dark:text-white text-sm flex items-center gap-2">
+                              <span>{adm.name}</span>
+                              {isPrimary && (
+                                <span className="px-1.5 py-0.5 rounded-sm bg-yellow-400 text-black text-[9px] font-bold border border-black">
+                                  LEAD ADMIN
+                                </span>
+                              )}
+                              {isSelf && (
+                                <span className="px-1.5 py-0.5 rounded-sm bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 text-[9px] font-bold border border-blue-400">
+                                  YOU
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-[11px] text-zinc-500">
+                              {adm.email} • {adm.department || "Admin Lead"}
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <div className="font-bold text-black dark:text-white text-sm">
-                            {adm.name}
-                          </div>
-                          <div className="text-[11px] text-zinc-500">
-                            {adm.email} • {adm.department || "Admin Lead"}
-                          </div>
+
+                        <div className="flex items-center gap-2 self-end sm:self-center">
+                          <span className="px-2.5 py-1 rounded-sm btn-minimal btn-blue text-white text-[10px] font-bold">
+                            CHAPTER ADMIN
+                          </span>
+
+                          {!isPrimary && !isSelf && (
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveAdmin(adm)}
+                              disabled={actionLoading}
+                              className="px-2.5 py-1 rounded-sm bg-red-600 hover:bg-red-700 text-white text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors shadow-[1px_1px_0px_#000]"
+                              title={`Remove admin privileges from ${adm.name}`}
+                            >
+                              <Trash2 className="w-3 h-3" />
+                              <span>Remove Admin</span>
+                            </button>
+                          )}
                         </div>
                       </div>
-
-                      <span className="px-2.5 py-1 rounded-sm btn-minimal btn-blue text-white text-[10px] font-bold">
-                        CHAPTER ADMIN
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>

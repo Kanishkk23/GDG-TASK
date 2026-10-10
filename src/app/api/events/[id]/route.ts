@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eventsDb, registrationsDb } from "@/lib/db";
+import { eventsDb, registrationsDb, syncDbFromDisk, saveDb } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  syncDbFromDisk();
   const event = eventsDb.find((e) => e.id === params.id);
   if (!event) {
     return NextResponse.json({ success: false, message: "Event not found" }, { status: 404 });
@@ -48,6 +49,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     if (body.venue) event.venue = body.venue.trim();
     if (body.category) event.category = body.category.trim();
 
+    saveDb();
     return NextResponse.json({ success: true, message: "Event updated successfully!", data: event });
   } catch {
     return NextResponse.json({ success: false, message: "Invalid update payload" }, { status: 400 });
@@ -66,6 +68,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     return NextResponse.json({ success: false, message: "Forbidden. Admin only." }, { status: 403 });
   }
 
+  syncDbFromDisk();
   const eventIndex = eventsDb.findIndex((e) => e.id === params.id);
   if (eventIndex === -1) {
     return NextResponse.json({ success: false, message: "Event not found" }, { status: 404 });
@@ -81,5 +84,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     }
   }
 
+  saveDb();
   return NextResponse.json({ success: true, message: "Event and associated registrations deleted successfully." });
 }

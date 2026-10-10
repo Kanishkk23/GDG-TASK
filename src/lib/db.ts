@@ -1,12 +1,17 @@
+import fs from "fs";
+import path from "path";
 import { User, EventItem, RegistrationRecord } from "@/types";
 import { hashPassword } from "./auth";
 
-interface DbUser extends User {
+export interface DbUser extends User {
   passwordHash: string;
 }
 
+const DATA_DIR = path.join(process.cwd(), "data");
+const DB_FILE = path.join(DATA_DIR, "db.json");
+
 // Seed accounts: Admin and Student
-export const usersDb: DbUser[] = [
+const INITIAL_USERS: DbUser[] = [
   {
     id: "admin-lead-kanishk",
     name: "Kanishk Kriplani",
@@ -39,8 +44,7 @@ export const usersDb: DbUser[] = [
   },
 ];
 
-// Seed Events with Capacity & Category
-export const eventsDb: EventItem[] = [
+const INITIAL_EVENTS: EventItem[] = [
   {
     id: "gdg-orientation-2024",
     title: "GDG ORIENTATION 2024",
@@ -107,7 +111,7 @@ export const eventsDb: EventItem[] = [
     venue: "Seminar Hall 2",
     capacity: 50,
     category: "design",
-    registeredCount: 50, // Capacity full demo!
+    registeredCount: 50,
     createdAt: new Date().toISOString(),
     isUpcoming: true,
   },
@@ -127,8 +131,7 @@ export const eventsDb: EventItem[] = [
   }
 ];
 
-// Registrations database with pre-seeded registration for student-user-01
-export const registrationsDb: RegistrationRecord[] = [
+const INITIAL_REGISTRATIONS: RegistrationRecord[] = [
   {
     id: "reg-demo-01",
     ticketId: "GDG-RBU-INIT01-1024",
@@ -142,3 +145,89 @@ export const registrationsDb: RegistrationRecord[] = [
     createdAt: new Date().toISOString(),
   }
 ];
+
+interface GlobalDataStore {
+  _usersDb?: DbUser[];
+  _eventsDb?: EventItem[];
+  _registrationsDb?: RegistrationRecord[];
+  _isInitialized?: boolean;
+}
+
+const g = globalThis as unknown as GlobalDataStore;
+
+export function saveDb(): void {
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    const data = {
+      users: g._usersDb || [],
+      events: g._eventsDb || [],
+      registrations: g._registrationsDb || [],
+    };
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+  } catch (error) {
+    console.error("Failed to save database file:", error);
+  }
+}
+
+export function syncDbFromDisk(): void {
+  try {
+    if (fs.existsSync(DB_FILE)) {
+      const content = fs.readFileSync(DB_FILE, "utf-8");
+      const data = JSON.parse(content);
+
+      if (Array.isArray(data.users)) {
+        if (!g._usersDb) g._usersDb = [];
+        g._usersDb.length = 0;
+        g._usersDb.push(...data.users);
+      }
+      if (Array.isArray(data.events)) {
+        if (!g._eventsDb) g._eventsDb = [];
+        g._eventsDb.length = 0;
+        g._eventsDb.push(...data.events);
+      }
+      if (Array.isArray(data.registrations)) {
+        if (!g._registrationsDb) g._registrationsDb = [];
+        g._registrationsDb.length = 0;
+        g._registrationsDb.push(...data.registrations);
+      }
+      return;
+    }
+  } catch (error) {
+    console.error("Failed to sync database from disk:", error);
+  }
+}
+
+function initDb(): void {
+  if (g._isInitialized && g._usersDb && g._eventsDb && g._registrationsDb) {
+    return;
+  }
+
+  try {
+    if (fs.existsSync(DB_FILE)) {
+      const content = fs.readFileSync(DB_FILE, "utf-8");
+      const data = JSON.parse(content);
+      g._usersDb = data.users || [...INITIAL_USERS];
+      g._eventsDb = data.events || [...INITIAL_EVENTS];
+      g._registrationsDb = data.registrations || [...INITIAL_REGISTRATIONS];
+      g._isInitialized = true;
+      return;
+    }
+  } catch (error) {
+    console.error("Failed to load existing db.json, using seed data:", error);
+  }
+
+  g._usersDb = [...INITIAL_USERS];
+  g._eventsDb = [...INITIAL_EVENTS];
+  g._registrationsDb = [...INITIAL_REGISTRATIONS];
+  g._isInitialized = true;
+  saveDb();
+}
+
+initDb();
+
+// Export reactive / shared array instances
+export const usersDb: DbUser[] = g._usersDb!;
+export const eventsDb: EventItem[] = g._eventsDb!;
+export const registrationsDb: RegistrationRecord[] = g._registrationsDb!;

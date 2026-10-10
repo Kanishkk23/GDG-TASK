@@ -124,11 +124,12 @@ export default function TeamSection() {
             {/* Right Photo (6 cols) */}
             <div className="lg:col-span-6 flex flex-col items-center">
               <div className="w-full relative rounded-sm overflow-hidden border-3 border-black shadow-[6px_6px_0px_#000] group">
-                <div className="relative aspect-[4/3] w-full bg-zinc-200">
+                <div className="relative aspect-[16/9] w-full bg-zinc-200">
                   <Image
-                    src="/assets/team_photo.png"
-                    alt="GDG RBU Chapter Team Photograph"
+                    src="/assets/team_photo.jpg"
+                    alt="GDG RBU Chapter Community Photograph"
                     fill
+                    priority
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>

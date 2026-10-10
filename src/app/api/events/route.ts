@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eventsDb } from "@/lib/db";
+import { eventsDb, syncDbFromDisk, saveDb } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
 import { EventItem } from "@/types";
 
 export async function GET(req: NextRequest) {
+  syncDbFromDisk();
   const { searchParams } = new URL(req.url);
   const search = searchParams.get("search")?.toLowerCase() || "";
   const category = searchParams.get("category") || "";
@@ -77,6 +78,7 @@ export async function POST(req: NextRequest) {
     };
 
     eventsDb.unshift(newEvent);
+    saveDb();
 
     return NextResponse.json(
       { success: true, message: "Event created successfully!", data: newEvent },

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { usersDb } from "@/lib/db";
+import { usersDb, syncDbFromDisk, saveDb } from "@/lib/db";
 import { hashPassword, signToken } from "@/lib/auth";
 import { User } from "@/types";
 
@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    syncDbFromDisk();
     const emailLower = email.trim().toLowerCase();
     const existing = usersDb.find((u) => u.email.toLowerCase() === emailLower);
     if (existing) {
@@ -38,6 +39,7 @@ export async function POST(req: NextRequest) {
       ...newUser,
       passwordHash: hashPassword(password),
     });
+    saveDb();
 
     const token = signToken(newUser);
 

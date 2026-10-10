@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { usersDb } from "@/lib/db";
+import { usersDb, syncDbFromDisk } from "@/lib/db";
 import { hashPassword, signToken } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    syncDbFromDisk();
     const emailLower = email.trim().toLowerCase();
     const user = usersDb.find((u) => u.email.toLowerCase() === emailLower);
 

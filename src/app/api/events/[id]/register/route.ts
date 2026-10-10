@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eventsDb, registrationsDb, usersDb } from "@/lib/db";
+import { eventsDb, registrationsDb, usersDb, syncDbFromDisk, saveDb } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
 import { RegistrationRecord } from "@/types";
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+  syncDbFromDisk();
   const authHeader = req.headers.get("authorization");
   const token = authHeader?.replace("Bearer ", "") || req.cookies.get("gdg_token")?.value;
 
@@ -74,6 +75,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   };
 
   registrationsDb.push(newReg);
+  saveDb();
 
   return NextResponse.json({
     success: true,
