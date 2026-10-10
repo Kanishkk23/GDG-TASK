@@ -102,7 +102,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const quickLogin = async (role: "admin" | "student") => {
     if (role === "admin") {
-      await login("admin@rknec.edu", "admin123");
+      await login("k3kriplani@gmail.com", "pass-Kanishk");
     } else {
       await login("student@rknec.edu", "student123");
     }

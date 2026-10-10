@@ -8,6 +8,16 @@ interface DbUser extends User {
 // Seed accounts: Admin and Student
 export const usersDb: DbUser[] = [
   {
+    id: "admin-lead-kanishk",
+    name: "Kanishk Kriplani",
+    email: "k3kriplani@gmail.com",
+    passwordHash: hashPassword("pass-Kanishk"),
+    role: "admin",
+    department: "Computer Science & Engineering",
+    year: "Chapter Lead",
+    createdAt: new Date().toISOString(),
+  },
+  {
     id: "admin-user-01",
     name: "GDG Lead (Admin)",
     email: "admin@rknec.edu",
