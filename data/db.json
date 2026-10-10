@@ -11,16 +11,6 @@
       "createdAt": "2026-10-10T12:40:15.318Z"
     },
     {
-      "id": "admin-user-01",
-      "name": "GDG Lead (Admin)",
-      "email": "admin@rknec.edu",
-      "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
-      "role": "admin",
-      "department": "Computer Science & Engineering",
-      "year": "Faculty / Lead",
-      "createdAt": "2026-10-10T12:40:15.319Z"
-    },
-    {
       "id": "student-user-01",
       "name": "Aayush Kulkarni",
       "email": "student@rknec.edu",
@@ -29,6 +19,16 @@
       "department": "Information Technology",
       "year": "3rd Year",
       "createdAt": "2026-10-10T12:40:15.319Z"
+    },
+    {
+      "id": "admin-1791636299774-83kz",
+      "name": "yash",
+      "email": "25kriplanikr@rbunagpur.in",
+      "role": "admin",
+      "department": "GDG Leadership",
+      "year": "Lead / Faculty",
+      "createdAt": "2026-10-10T12:44:59.774Z",
+      "passwordHash": "262cc47030b1803064844b94c1cb0054a247d1e550e26bb33f215149d8b2c72e"
     }
   ],
   "events": [
@@ -57,62 +57,6 @@
       "capacity": 100,
       "category": "Web dev",
       "registeredCount": 0,
-      "createdAt": "2026-10-10T12:40:15.319Z",
-      "isUpcoming": true
-    },
-    {
-      "id": "mac-mobile-bootcamp",
-      "title": "iOS & Android Mobile Architecture",
-      "description": "Deep dive into cross-platform development with Flutter, Swift fundamentals, and modern mobile backend integration.",
-      "dateTime": "18th October 2024 • 2:00 PM IST",
-      "date": "18TH OCTOBER",
-      "time": "2:00 PM",
-      "venue": "Lab 4, Department of CSE",
-      "capacity": 60,
-      "category": "MAC",
-      "registeredCount": 42,
-      "createdAt": "2026-10-10T12:40:15.319Z",
-      "isUpcoming": true
-    },
-    {
-      "id": "cp-speed-codefest",
-      "title": "Competitive Programming Sprint",
-      "description": "Fast-paced algorithmic contest covering dynamic programming, graphs, and greedy strategies with Google interview question walkthroughs.",
-      "dateTime": "24th October 2024 • 4:00 PM IST",
-      "date": "24TH OCTOBER",
-      "time": "4:00 PM",
-      "venue": "CSE Central Computer Center",
-      "capacity": 100,
-      "category": "competetive programming",
-      "registeredCount": 98,
-      "createdAt": "2026-10-10T12:40:15.319Z",
-      "isUpcoming": true
-    },
-    {
-      "id": "design-system-workshop",
-      "title": "Design Systems & Figma Prototyping",
-      "description": "Master modern neo-brutalist and iOS glass UI design, component variants, auto-layout, and handoff to front-end engineers.",
-      "dateTime": "28th October 2024 • 11:00 AM IST",
-      "date": "28TH OCTOBER",
-      "time": "11:00 AM",
-      "venue": "Seminar Hall 2",
-      "capacity": 50,
-      "category": "design",
-      "registeredCount": 50,
-      "createdAt": "2026-10-10T12:40:15.319Z",
-      "isUpcoming": true
-    },
-    {
-      "id": "socials-tech-mixer",
-      "title": "GDG Community Socials & Networking",
-      "description": "Informal networking mixer with alumni working at top tech firms, interactive trivia, and project showcases.",
-      "dateTime": "5th November 2024 • 5:00 PM IST",
-      "date": "5TH NOVEMBER",
-      "time": "5:00 PM",
-      "venue": "Open Amphitheatre, RBU Campus",
-      "capacity": 150,
-      "category": "socials",
-      "registeredCount": 88,
       "createdAt": "2026-10-10T12:40:15.319Z",
       "isUpcoming": true
     }
