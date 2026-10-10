@@ -291,6 +291,30 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                         <span>•</span>
                         <span>{event.venue}</span>
                       </div>
+
+                      {/* Admin Capacity Task Bar */}
+                      <div className="pt-1.5 space-y-1">
+                        <div className="flex items-center justify-between text-[10px] text-zinc-600 dark:text-zinc-300 font-bold">
+                          <span>Capacity: {event.registeredCount} / {event.capacity}</span>
+                          <span className={event.capacity - event.registeredCount <= 0 ? "text-red-600" : "text-green-600 dark:text-green-400"}>
+                            {Math.max(0, event.capacity - event.registeredCount)} seats left
+                          </span>
+                        </div>
+                        <div className="w-full bg-zinc-200 dark:bg-zinc-700 h-2 rounded-[2px] border border-black/40 overflow-hidden">
+                          <div
+                            className={`h-full transition-all ${
+                              (event.registeredCount / event.capacity) >= 1
+                                ? "bg-red-500"
+                                : (event.registeredCount / event.capacity) >= 0.75
+                                ? "bg-amber-500"
+                                : "bg-green-600"
+                            }`}
+                            style={{
+                              width: `${Math.min(100, Math.round((event.registeredCount / event.capacity) * 100))}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
