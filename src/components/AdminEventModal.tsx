@@ -24,22 +24,29 @@ const AVAILABLE_CATEGORIES = [
 export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Props) {
   const { token, user } = useAuth();
   const [events, setEvents] = useState<EventItem[]>([]);
+  const [adminsList, setAdminsList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const [mode, setMode] = useState<"list" | "create" | "edit" | "attendees">("list");
+  const [mode, setMode] = useState<"list" | "create" | "edit" | "attendees" | "manage-admins">("list");
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [attendeesList, setAttendeesList] = useState<any[]>([]);
 
-  // Form fields
+  // Form fields for events
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dateTime, setDateTime] = useState("");
   const [venue, setVenue] = useState("");
   const [capacity, setCapacity] = useState<number>(100);
   const [category, setCategory] = useState("Web dev");
+
+  // Form fields for new admin
+  const [newAdminName, setNewAdminName] = useState("");
+  const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [newAdminPassword, setNewAdminPassword] = useState("");
+  const [newAdminDept, setNewAdminDept] = useState("GDG Leadership");
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -53,9 +60,22 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
     setLoading(false);
   };
 
+  const fetchAdmins = async () => {
+    try {
+      const res = await fetch("/api/admin/users", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setAdminsList(data.admins || []);
+      }
+    } catch {}
+  };
+
   useEffect(() => {
     if (isOpen) {
       fetchEvents();
+      fetchAdmins();
       setMode("list");
       setMessage(null);
       setErrorMsg(null);
@@ -206,16 +226,54 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
     }
   };
 
+  const handleAddAdminSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setActionLoading(true);
+    setErrorMsg(null);
+    setMessage(null);
+
+    try {
+      const res = await fetch("/api/admin/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: newAdminName,
+          email: newAdminEmail,
+          password: newAdminPassword,
+          department: newAdminDept,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setMessage(data.message || `Admin role successfully granted for "${newAdminEmail}"!`);
+        setNewAdminName("");
+        setNewAdminEmail("");
+        setNewAdminPassword("");
+        await fetchAdmins();
+      } else {
+        setErrorMsg(data.message || "Failed to add admin.");
+      }
+    } catch {
+      setErrorMsg("Network error occurred.");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-400 rounded-sm w-full max-w-2xl shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden flex flex-col max-h-[88vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+      <div className="bg-white dark:bg-zinc-900 border-3 border-black dark:border-zinc-400 rounded-sm w-full max-w-4xl shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] overflow-hidden flex flex-col max-h-[90vh]">
         
         {/* Header */}
         <div className="bg-[#FBBC04] text-black p-4 border-b-2 border-black flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-black" />
             <h3 className="font-display-pixel text-base font-bold">
-              ADMIN EVENT MANAGEMENT CONSOLE
+              ADMIN CONTROL CENTER
             </h3>
           </div>
           <button
@@ -228,8 +286,8 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
         </div>
 
         {/* Sub Header Navigation */}
-        <div className="px-6 py-3 bg-zinc-100 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 flex items-center justify-between font-mono text-xs">
-          <div className="flex items-center gap-2">
+        <div className="px-6 py-3 bg-zinc-100 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+          <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={() => { setMode("list"); setMessage(null); setErrorMsg(null); }}
               className={`px-3 py-1.5 rounded-sm btn-minimal ${mode === "list" ? "btn-dark text-white" : "btn-white text-black dark:text-white"}`}
@@ -238,13 +296,20 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
             </button>
             <button
               onClick={handleOpenCreate}
-              className="px-3 py-1.5 rounded-sm btn-minimal btn-blue text-white flex items-center gap-1"
+              className={`px-3 py-1.5 rounded-sm btn-minimal ${mode === "create" ? "btn-dark text-white" : "btn-blue text-white"} flex items-center gap-1`}
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>Create New Event</span>
+              <span>Create Event</span>
+            </button>
+            <button
+              onClick={() => { setMode("manage-admins"); fetchAdmins(); setMessage(null); setErrorMsg(null); }}
+              className={`px-3 py-1.5 rounded-sm btn-minimal flex items-center gap-1.5 ${mode === "manage-admins" ? "btn-dark text-white" : "btn-yellow text-black"}`}
+            >
+              <Shield className="w-3.5 h-3.5" />
+              <span>Manage Admins ({adminsList.length})</span>
             </button>
           </div>
-          <span className="text-zinc-500 text-[11px]">Admin: {user?.name}</span>
+          <span className="text-zinc-500 text-[11px]">Logged in: {user?.name}</span>
         </div>
 
         {/* Content Body */}
@@ -352,9 +417,18 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
           {/* MODE: CREATE OR EDIT */}
           {(mode === "create" || mode === "edit") && (
             <form onSubmit={mode === "create" ? handleCreateSubmit : handleEditSubmit} className="space-y-4 font-mono text-xs">
-              <h4 className="font-display-pixel text-base font-bold text-black dark:text-white">
-                {mode === "create" ? "Create New GDG Event" : `Edit Event: ${selectedEvent?.title}`}
-              </h4>
+              <div className="flex items-center justify-between border-b-2 border-black pb-2">
+                <h4 className="font-bold text-sm text-black dark:text-white">
+                  {mode === "create" ? "Create New Chapter Event" : `Edit Event: ${selectedEvent?.title}`}
+                </h4>
+                <button
+                  type="button"
+                  onClick={() => setMode("list")}
+                  className="px-2.5 py-1 rounded-sm btn-minimal btn-white text-xs font-bold"
+                >
+                  Cancel
+                </button>
+              </div>
 
               <div>
                 <label className="block font-bold text-black dark:text-white mb-1">
@@ -363,10 +437,10 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Next.js & AI Hackathon"
+                  placeholder="e.g. Next.js 14 Full Stack Workshop"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans"
+                  className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
                 />
               </div>
 
@@ -377,10 +451,10 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                 <textarea
                   required
                   rows={3}
-                  placeholder="Comprehensive event details..."
+                  placeholder="Event overview, objectives, and topics..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs"
+                  className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white focus:outline-none font-sans"
                 />
               </div>
 
@@ -392,13 +466,12 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                   <input
                     type="text"
                     required
-                    placeholder="e.g. 15th November 2024 • 3:00 PM"
+                    placeholder="e.g. 15th November 2024 • 3:00 PM IST"
                     value={dateTime}
                     onChange={(e) => setDateTime(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs"
+                    className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans"
                   />
                 </div>
-
                 <div>
                   <label className="block font-bold text-black dark:text-white mb-1">
                     Venue *
@@ -406,10 +479,10 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Main Auditorium"
+                    placeholder="e.g. Main Auditorium / CSE Lab 3"
                     value={venue}
                     onChange={(e) => setVenue(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs"
+                    className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans"
                   />
                 </div>
               </div>
@@ -417,26 +490,26 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-black dark:text-white mb-1">
-                    Seat Capacity *
+                    Seat Capacity Limit *
                   </label>
                   <input
                     type="number"
-                    min={selectedEvent?.registeredCount || 1}
+                    min={1}
+                    max={1000}
                     required
                     value={capacity}
-                    onChange={(e) => setCapacity(parseInt(e.target.value, 10))}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono text-xs"
+                    onChange={(e) => setCapacity(parseInt(e.target.value) || 1)}
+                    className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono"
                   />
                 </div>
-
                 <div>
                   <label className="block font-bold text-black dark:text-white mb-1">
-                    Domain / Category *
+                    Technical Track / Domain
                   </label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono text-xs cursor-pointer"
+                    className="w-full p-2 bg-zinc-50 dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-mono"
                   >
                     {AVAILABLE_CATEGORIES.map((cat) => (
                       <option key={cat} value={cat}>
@@ -447,21 +520,21 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
                 </div>
               </div>
 
-              <div className="flex gap-2 pt-2">
-                <button
-                  type="submit"
-                  disabled={actionLoading}
-                  className="flex-1 py-3 rounded-sm btn-minimal btn-green text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  {actionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                  <span>{mode === "create" ? "Create Event" : "Save Changes"}</span>
-                </button>
+              <div className="pt-2 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setMode("list")}
-                  className="px-5 py-3 rounded-sm btn-minimal btn-white text-black dark:text-white font-bold text-xs cursor-pointer"
+                  className="px-4 py-2.5 rounded-sm btn-minimal btn-white font-bold"
                 >
                   Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={actionLoading}
+                  className="px-6 py-2.5 rounded-sm btn-minimal btn-blue text-white font-bold flex items-center gap-2"
+                >
+                  {actionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                  <span>{mode === "create" ? "Publish Event" : "Save Changes"}</span>
                 </button>
               </div>
             </form>
@@ -469,14 +542,14 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
 
           {/* MODE: ATTENDEES */}
           {mode === "attendees" && (
-            <div className="space-y-4 font-mono">
-              <div className="flex items-center justify-between border-b pb-2">
+            <div className="space-y-4 font-mono text-xs">
+              <div className="flex items-center justify-between border-b-2 border-black pb-2">
                 <div>
                   <h4 className="font-bold text-sm text-black dark:text-white">
-                    Attendees for {selectedEvent?.title}
+                    Attendee Roster: {selectedEvent?.title}
                   </h4>
-                  <span className="text-xs text-zinc-500">
-                    {attendeesList.length} total attendees
+                  <span className="text-[11px] text-zinc-500">
+                    Confirmed Registrations: {attendeesList.length} / {selectedEvent?.capacity}
                   </span>
                 </div>
                 <button
@@ -519,6 +592,134 @@ export default function AdminEventModal({ isOpen, onClose, onEventChanged }: Pro
               )}
             </div>
           )}
+
+          {/* MODE: MANAGE ADMINS */}
+          {mode === "manage-admins" && (
+            <div className="space-y-6">
+              {/* Add New Admin Card */}
+              <div className="p-5 bg-yellow-50 dark:bg-yellow-950/20 border-2.5 border-black dark:border-yellow-600 rounded-sm shadow-[4px_4px_0px_#000] space-y-4">
+                <div className="flex items-center justify-between border-b border-black/10 pb-2">
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-yellow-600" />
+                    <h4 className="font-bold text-sm text-black dark:text-white">
+                      Create or Promote Chapter Admin
+                    </h4>
+                  </div>
+                  <span className="text-[10px] text-zinc-500 font-mono">
+                    Admin privileges will be granted immediately
+                  </span>
+                </div>
+
+                <form onSubmit={handleAddAdminSubmit} className="space-y-3 font-mono text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold text-black dark:text-white mb-1">
+                        Admin Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Kanishk Kriplani"
+                        value={newAdminName}
+                        onChange={(e) => setNewAdminName(e.target.value)}
+                        className="w-full p-2 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-black dark:text-white mb-1">
+                        College / Admin Email *
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="e.g. admin@rknec.edu"
+                        value={newAdminEmail}
+                        onChange={(e) => setNewAdminEmail(e.target.value)}
+                        className="w-full p-2 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold text-black dark:text-white mb-1">
+                        Password *
+                      </label>
+                      <input
+                        type="password"
+                        required
+                        placeholder="Set password"
+                        value={newAdminPassword}
+                        onChange={(e) => setNewAdminPassword(e.target.value)}
+                        className="w-full p-2 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-black dark:text-white mb-1">
+                        Department / Role Title
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. GDG Core Lead"
+                        value={newAdminDept}
+                        onChange={(e) => setNewAdminDept(e.target.value)}
+                        className="w-full p-2 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm text-black dark:text-white font-sans text-xs focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={actionLoading}
+                    className="w-full py-3 rounded-sm btn-minimal btn-yellow text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer mt-2"
+                  >
+                    {actionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shield className="w-4 h-4 text-black" />}
+                    <span>Grant Chapter Admin Role</span>
+                  </button>
+                </form>
+              </div>
+
+              {/* Existing Admins List */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between border-b-2 border-black pb-2">
+                  <h4 className="font-bold text-sm text-black dark:text-white">
+                    Active Chapter Administrators ({adminsList.length})
+                  </h4>
+                  <span className="text-[11px] text-zinc-500 font-mono">
+                    Authorized to manage events & attendees
+                  </span>
+                </div>
+
+                <div className="space-y-2 max-h-72 overflow-y-auto">
+                  {adminsList.map((adm) => (
+                    <div
+                      key={adm.id}
+                      className="p-3.5 bg-white dark:bg-zinc-800 border-2 border-black rounded-sm shadow-[2px_2px_0px_#000] flex items-center justify-between font-mono text-xs"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-sm btn-minimal btn-yellow text-black flex items-center justify-center font-bold">
+                          <Shield className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="font-bold text-black dark:text-white text-sm">
+                            {adm.name}
+                          </div>
+                          <div className="text-[11px] text-zinc-500">
+                            {adm.email} • {adm.department || "Admin Lead"}
+                          </div>
+                        </div>
+                      </div>
+
+                      <span className="px-2.5 py-1 rounded-sm btn-minimal btn-blue text-white text-[10px] font-bold">
+                        CHAPTER ADMIN
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
 
       </div>

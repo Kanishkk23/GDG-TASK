@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       id: `user-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
       name: name.trim(),
       email: emailLower,
-      role: role === "admin" ? "admin" : "user",
+      role: "user", // Public signups are strictly regular users
       department: department || "Computer Science",
       year: year || "1st Year",
       createdAt: new Date().toISOString(),

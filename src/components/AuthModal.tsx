@@ -24,7 +24,6 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
   const [regPassword, setRegPassword] = useState("");
   const [department, setDepartment] = useState("Computer Science & Engineering");
   const [year, setYear] = useState("2nd Year");
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -59,7 +58,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
       password: regPassword,
       department,
       year,
-      role: isAdmin ? "admin" : "user",
+      role: "user",
     });
     setLoading(false);
     if (res.success) {
@@ -256,19 +255,6 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Pro
                     <option value="4th Year">4th Year</option>
                   </select>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-2 pt-1">
-                <input
-                  type="checkbox"
-                  id="isAdminCheck"
-                  checked={isAdmin}
-                  onChange={(e) => setIsAdmin(e.target.checked)}
-                  className="w-4 h-4 accent-blue-600"
-                />
-                <label htmlFor="isAdminCheck" className="text-zinc-700 dark:text-zinc-300 cursor-pointer text-xs">
-                  Register as Chapter Admin
-                </label>
               </div>
 
               <button
