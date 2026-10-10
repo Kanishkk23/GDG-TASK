@@ -7,7 +7,9 @@ export interface DbUser extends User {
   passwordHash: string;
 }
 
-const DATA_DIR = path.join(process.cwd(), "data");
+const IS_VERCEL = process.env.VERCEL === "1" || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+const ROOT_DB_FILE = path.join(process.cwd(), "data", "db.json");
+const DATA_DIR = IS_VERCEL ? "/tmp" : path.join(process.cwd(), "data");
 const DB_FILE = path.join(DATA_DIR, "db.json");
 
 // Seed accounts: Admin and Student
@@ -173,8 +175,9 @@ export function saveDb(): void {
 
 export function syncDbFromDisk(): void {
   try {
-    if (fs.existsSync(DB_FILE)) {
-      const content = fs.readFileSync(DB_FILE, "utf-8");
+    const targetFile = fs.existsSync(DB_FILE) ? DB_FILE : (fs.existsSync(ROOT_DB_FILE) ? ROOT_DB_FILE : null);
+    if (targetFile) {
+      const content = fs.readFileSync(targetFile, "utf-8");
       const data = JSON.parse(content);
 
       if (Array.isArray(data.users)) {
@@ -204,18 +207,22 @@ function initDb(): void {
     return;
   }
 
-  try {
-    if (fs.existsSync(DB_FILE)) {
-      const content = fs.readFileSync(DB_FILE, "utf-8");
+  const targetFile = fs.existsSync(DB_FILE) ? DB_FILE : (fs.existsSync(ROOT_DB_FILE) ? ROOT_DB_FILE : null);
+  if (targetFile) {
+    try {
+      const content = fs.readFileSync(targetFile, "utf-8");
       const data = JSON.parse(content);
       g._usersDb = data.users || [...INITIAL_USERS];
       g._eventsDb = data.events || [...INITIAL_EVENTS];
       g._registrationsDb = data.registrations || [...INITIAL_REGISTRATIONS];
       g._isInitialized = true;
+      if (IS_VERCEL && !fs.existsSync(DB_FILE)) {
+        saveDb();
+      }
       return;
+    } catch (error) {
+      console.error("Failed to load existing db.json, using seed data:", error);
     }
-  } catch (error) {
-    console.error("Failed to load existing db.json, using seed data:", error);
   }
 
   g._usersDb = [...INITIAL_USERS];
